@@ -1,0 +1,802 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="确认当前所在分支进行分支操作前，请先确认当前工作分支，避免出现误操作。
+
+使用 git branch 命令，见下文
+souretree 左侧边栏 BRANCHES 下，加粗的是当前分支
+
+rebase 与 merge
+merge 是直接将两个分支汇合。
+rebase 是将当前分支在要合并的分支上重新演化。工作流程如下：
+先找到当前分支与要合并分支的分叉点
+对分叉点后的每个提交，计算它与前一点的差异">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 分支管理">
+<meta property="og:url" content="http://jayi.github.io/2016/01/05/Git 分支管理/index.html">
+<meta property="og:site_name" content="Jayi">
+<meta property="og:description" content="确认当前所在分支进行分支操作前，请先确认当前工作分支，避免出现误操作。
+
+使用 git branch 命令，见下文
+souretree 左侧边栏 BRANCHES 下，加粗的是当前分支
+
+rebase 与 merge
+merge 是直接将两个分支汇合。
+rebase 是将当前分支在要合并的分支上重新演化。工作流程如下：
+先找到当前分支与要合并分支的分叉点
+对分叉点后的每个提交，计算它与前一点的差异">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff2">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff1">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff0">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff3">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff1">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff0">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff3">
+<meta property="og:updated_time" content="2016-09-08T02:16:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 分支管理">
+<meta name="twitter:description" content="确认当前所在分支进行分支操作前，请先确认当前工作分支，避免出现误操作。
+
+使用 git branch 命令，见下文
+souretree 左侧边栏 BRANCHES 下，加粗的是当前分支
+
+rebase 与 merge
+merge 是直接将两个分支汇合。
+rebase 是将当前分支在要合并的分支上重新演化。工作流程如下：
+先找到当前分支与要合并分支的分叉点
+对分叉点后的每个提交，计算它与前一点的差异">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Git 分支管理 | Jayi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Jayi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Git 分支管理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-05T09:38:27+08:00" content="2016-01-05">
+              2016-01-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/05/Git 分支管理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/05/Git 分支管理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="确认当前所在分支">确认当前所在分支</h2><p>进行分支操作前，请先确认当前工作分支，避免出现误操作。</p>
+<ul>
+<li>使用 git branch 命令，见下文</li>
+<li>souretree 左侧边栏 BRANCHES 下，加粗的是当前分支<br><img src="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff2" alt=""></li>
+</ul>
+<h2 id="rebase_与_merge">rebase 与 merge</h2><ul>
+<li>merge 是直接将两个分支汇合。</li>
+<li>rebase 是将当前分支在要合并的分支上重新演化。工作流程如下：<ol>
+<li>先找到当前分支与要合并分支的分叉点</li>
+<li>对分叉点后的每个提交，计算它与前一点的差异代码， 在要合并分支上应用并提交（这一步有可能产生冲突）</li>
+<li><strong>删除当前分支的到分叉点的所有记录</strong></li>
+<li>将当前分支指针指向第2步得到的演化结果</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff1" alt="before-pull"><br>合并前的状态</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff0" alt="git-pull"><br>git merge origin/master</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff3" alt="git-pull-rebase"><br>git rebase origin/master。算出 b1 到 a1的 差异代码，应用到 a2 上，master 指针指向新的 b1，删除旧的 b1。</p>
+<h2 id="远程分支">远程分支</h2><pre><code><span class="variable">$ </span>git pull
+</code></pre><p>如果设置了某个分支用于跟踪某个远程仓库的分支，此命令可拉取数据，并自动合并对应分支。<br>默认情况下 git clone 命令本质上就是自动创建了本地的 master 分支用于跟踪远程仓库中的 master 分支</p>
+<p><strong>使用git pull 时，请加上 –rebase，保持线性历史记录</strong><br><img src="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff1" alt="before-pull"><br>pull 前的状态</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff0" alt="git-pull"><br>git pull 等价于 git merge origin/master，执行后产生了分叉</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=57d0c9ccab644133ed077ff3" alt="git-pull-rebase"><br>git pull –rebase，等价于 git rebase origin/master，前当前所有提交记录在 origin/master 上重演，保持线性历史。</p>
+<hr>
+<pre><code>$ git fetch <span class="string">[remote-name]</span>
+</code></pre><p>从远程仓库抓取数据到本地。不指定远程仓库名时默认为origin。此命令仅拉取数据，并不自动合并。</p>
+<hr>
+<pre><code>$ git push <span class="string">[remote-name]</span> <span class="string">[branch-name]</span>
+</code></pre><p>将本地分支推送到远程仓库。<br>如果在你推数据前，已经有其他人推送了若干更新，那你的推送操作就会被驳回。你必须先把他们的更新抓取到本地，合并到自己的项目中，然后才可以再次推送。</p>
+<hr>
+<pre><code>$ git <span class="keyword">push </span>origin serverfix
+</code></pre><p>推送本地serverfix分支到远程仓库origin的serverfix分支。</p>
+<hr>
+<pre><code>$ git <span class="keyword">push </span>origin serverfix:awesomebranch
+</code></pre><p>推送本地serverfix分支到远程仓库origin的awesomebranch。</p>
+<hr>
+<pre><code><span class="variable">$ </span>git push origin <span class="symbol">:serverfix</span>
+</code></pre><p>删除远程仓库serverfix分支。</p>
+<hr>
+<pre><code><span class="variable">$ </span>git branch
+</code></pre><p>列出所有分支。* 所指的是 HEAD 所指向的分支，即当前工作分支。</p>
+<hr>
+<pre><code>$ git checkout -<span class="tag">b</span> serverfix origin/serverfix
+</code></pre><p>根据远程仓库origin的serverfix分支新建本地serverfix分支。</p>
+<hr>
+<pre><code>$ git checkout <span class="comment">--track origin/serverfix</span>
+</code></pre><p>效果同上。</p>
+<hr>
+<pre><code>$ git <span class="keyword">branch </span>testing
+</code></pre><p>在当前 commit 对象上新建一个分支指针。仅建立分支，但不切换。<br>HEAD指针总是指向当前正在工作的分支。</p>
+<hr>
+<pre><code><span class="variable">$ </span>git checkout testing
+</code></pre><p>切换到testing分支。</p>
+<hr>
+<pre><code>$ git checkout -<span class="tag">b</span> iss53
+</code></pre><p>新建iss53分支，并切换到此分支，相当于：</p>
+<pre><code><span class="variable">$ </span>git branch iss53
+<span class="variable">$ </span>git checkout iss53
+</code></pre><hr>
+<pre><code>$ git <span class="keyword">branch </span>-d hotfix
+</code></pre><p>删除hotfix分支。-D为强制删除。</p>
+<hr>
+<h1 id="Git使用流程建议">Git使用流程建议</h1><ul>
+<li><p>Git 新建、切换分支速度很快，可以同时建多个分支进行不同功能的开发，调试。</p>
+</li>
+<li><p>何时使用 rebase 何时使用 merge？</p>
+<ul>
+<li>git pull 使用–rebase。本地分支操作用 merge。当master上有很多 commit 时，rebase 冲突的概率会很大，应当避免这种情况。这种情况更合理的做法是切换到一个新的分支，在新的分支开发。</li>
+<li><strong>使用 sourcetree 进行本地分支的 merge 时，不要选择 Rebase instead of merge （最后一项）</strong></li>
+</ul>
+</li>
+<li><p>什么时候需要新建分支？</p>
+<ul>
+<li>需要多次提交时，或者改动较多时，新建分支开发。</li>
+<li>简单的 Bug 修复，或者只需要一两次提交小功能点，可以直接在本地的主干上开发。</li>
+</ul>
+</li>
+<li><p>同步流程</p>
+<ul>
+<li>本地没有更新时，直接 git pull –rebase 即可与远程分支同步。</li>
+<li>在本地主干上开发，commit 到本地后，git pull –rebase 与远程分支同步，最后 push。</li>
+<li>在新分支上开发结束，要提交到远程分支时，先将 master 同步到最新，再将新分支 merge 到 master，最后 push。</li>
+<li>在新建的分支开发，需要与最新代码同步时，可以git merge origin/master。这种情况会造成较混乱提交历史记录，少用。</li>
+</ul>
+</li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag">#git</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/11/Mac terminal vim 不能使用系统剪贴板解决方法/" rel="next" title="Mac terminal vim 不能使用系统剪贴板解决方法">
+                <i class="fa fa-chevron-left"></i> Mac terminal vim 不能使用系统剪贴板解决方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/05/Git的撤消操作 - 重置, 签出 和 撤消/" rel="prev" title="Git的撤消操作 - 重置, 签出 和 撤消">
+                Git的撤消操作 - 重置, 签出 和 撤消 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/05/Git 分支管理/"
+           data-title="Git 分支管理" data-url="http://jayi.github.io/2016/01/05/Git 分支管理/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Jayi" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Jayi</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Jayi's blog | iOS | java</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#确认当前所在分支"><span class="nav-number">1.</span> <span class="nav-text">确认当前所在分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rebase_与_merge"><span class="nav-number">2.</span> <span class="nav-text">rebase 与 merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程分支"><span class="nav-number">3.</span> <span class="nav-text">远程分支</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git使用流程建议"><span class="nav-number"></span> <span class="nav-text">Git使用流程建议</span></a></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jayiist"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

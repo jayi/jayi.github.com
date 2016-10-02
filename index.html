@@ -53,15 +53,15 @@
 
 
 
-<meta name="description" content="Jayi&apos;s blog | iOS | python">
+<meta name="description" content="Jayi&apos;s blog | iOS | java">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jayi">
 <meta property="og:url" content="http://jayi.github.io/index.html">
 <meta property="og:site_name" content="Jayi">
-<meta property="og:description" content="Jayi&apos;s blog | iOS | python">
+<meta property="og:description" content="Jayi&apos;s blog | iOS | java">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jayi">
-<meta name="twitter:description" content="Jayi&apos;s blog | iOS | python">
+<meta name="twitter:description" content="Jayi&apos;s blog | iOS | java">
 
 
 
@@ -231,8 +231,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/11/mac-terminal-vim/" itemprop="url">
-                  Mac terminal vim 不能使用系统剪贴板解决方法
+                <a class="post-title-link" href="/2016/09/08/ssh 免密码登录/" itemprop="url">
+                  ssh 免密码登录
                 </a>
               
             
@@ -242,19 +242,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-11T21:06:41+08:00" content="2015-12-11">
-              2015-12-11
+            <time itemprop="dateCreated" datetime="2016-09-08T14:24:25+08:00" content="2016-09-08">
+              2016-09-08
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/evernote/" itemprop="url" rel="index">
+                    <span itemprop="name">evernote</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/11/mac-terminal-vim/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/11/mac-terminal-vim/" itemprop="commentsCount"></span>
+                <a href="/2016/09/08/ssh 免密码登录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/08/ssh 免密码登录/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -276,10 +291,130 @@
         
           <span itemprop="articleBody">
             
-              <p>Mac 系统自带的 vim 编译时没加clipboard选项，不能使用系统剪贴板。<br>可以使用 brew的 macvim:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># &#26087;&#29256;&#26412;&#30340; brew &#20026;--override-system-vim&#10;brew install macvim --with-override-system-vim&#10;brew linkapps</span><br></pre></td></tr></table></figure>
-<p>如果 vimrc 添加了<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set clipboard=unnamed</span><br></pre></td></tr></table></figure></p>
-<p>则可以直接使用系统剪贴板而不用加前缀”*</p>
+              <p>首先生成密钥, 如果已有密钥文件(~/.ssh/id_rsa)则不用执行</p>
+<pre><code>ssh-keygen -t rsa
+</code></pre><p>在客户端执行</p>
+<pre><code>scp <span class="regexp">~/.ssh/</span>id_rsa.pub <span class="string">remote:</span>
+</code></pre><p>在服务端执行</p>
+<pre><code>cd ~/<span class="class">.ssh</span>
+cat ~/id_rsa<span class="class">.pub</span> &gt;&gt; authorized_keys
+</code></pre><hr>
+<p>也可以将上面两步合并为一步，在客户端执行</p>
+<pre><code>cat ~<span class="regexp">/.ssh/id</span>_rsa.pub | ssh root<span class="variable">@remote</span> <span class="string">'cat &gt;&gt; .ssh/authorized_keys'</span>
+</code></pre>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/01/iOS property 属性关键字/" itemprop="url">
+                  iOS property 属性关键字
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-09-01T16:27:21+08:00" content="2016-09-01">
+              2016-09-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/01/iOS property 属性关键字/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/01/iOS property 属性关键字/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <ul>
+<li><em>atomic</em> 默认关键字，表示属性是线程同步的，多线程访问时保证正确性。在移动端一般不使用，性能差。</li>
+<li><em>nonatomic</em> 非线程同步。</li>
+<li><em>readwrite</em> 默认关键字，可读可写。</li>
+<li><em>readonly</em> 表示属性只能读。有 getter 没有 setter。</li>
+<li><em>writeonly</em> 只能写不能读。</li>
+<li><em>copy</em> 拷贝一个新的对象，新对象的引用计数+1，原对象不用。默认会在 setter 中调用 copy 方法执行。不能对可变类型使用。</li>
+<li><em>retain</em> 对象的引用计数+1，arc 下不使用，用 strong 代替。 </li>
+<li>strong 强引用，引用计数+1，释放时-1，引用计数为0时释放对象</li>
+<li><em>assign weak</em> 弱引用，不希望持有对象时使用，如代理，UI 控件。对象释放时，weak 会自动变为 nil，assign 不会。</li>
+<li><em>nonnull, nullable, null_resettable</em> 与 swift 中的?和!类似。nonnull 表示属性不可为 nil,必须有值。nullable 表示可以为 nil。null_resettable 表示 setter 是 nullable, getter 是 nonnull。</li>
+</ul>
 
             
           </span>
@@ -322,8 +457,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/03/java8/" itemprop="url">
-                  java 8 新特性简介
+                <a class="post-title-link" href="/2016/08/06/Linux 无界面使用 selenium/" itemprop="url">
+                  Linux 无界面使用 selenium
                 </a>
               
             
@@ -333,19 +468,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-03T10:13:10+08:00" content="2015-12-03">
-              2015-12-03
+            <time itemprop="dateCreated" datetime="2016-08-06T10:20:19+08:00" content="2016-08-06">
+              2016-08-06
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/03/java8/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/03/java8/" itemprop="commentsCount"></span>
+                <a href="/2016/08/06/Linux 无界面使用 selenium/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/06/Linux 无界面使用 selenium/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -367,173 +517,401 @@
         
           <span itemprop="articleBody">
             
-              <h1 id="lambda_表达式">lambda 表达式</h1><p>匿名函数，简化代码。<br>简化前：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Collections.sort(list, <span class="keyword">new</span> Comparator&lt;String&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(String a, String b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b.compareTo(a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">for</span> (String item : list) &#123;</span><br><span class="line">    System.out.println(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>使用 lambda 表达式简化后:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list.sort((a, b) -&gt; b.compareTo(a));</span><br><span class="line">list.forEach(System.out::println);</span><br></pre></td></tr></table></figure></p>
-<h1 id="函数接口">函数接口</h1><p>定义：函数接口是只有一个抽象方法的接口，用于作为Lambda表达式的类型.</p>
-<p>以下6个是 java 定义的6个常用函数接口</p>
+              <p>最近想在 centOS 运行 selenium 抓数据，但是装图形界面太占资源了，于是就找了下无界面运行 selenium 的方法。</p>
+<p>Google 之后找到了 Xvfb。Xvfb 是什么呢，他的名称是 virtual framebuffer X server for X Version 11， Xvfb 新建虚拟的X窗口，并且不会把图像输出到屏幕上，也就是说，就算你的电脑沒有启动 Xwindow ， 你仍然可以执行任何图形程序。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># &#23433;&#35013; Xvfb&#10;yum install xorg-x11-server-Xvfb&#10;&#10;# &#23433;&#35013; firefox &#21644; selenium&#10;yum install firefox&#10;pip install selenium&#10;&#10;# &#36816;&#34892; Xvfb&#10;Xvfb :0 -screen 0 800x600x24 &#62;&#62; /tmp/Xvfb.out 2&#62;&#38;1 &#38;&#10;export DISPLAY=:0</span><br></pre></td></tr></table></figure>
+<p>安装设置好 Xvfb 后，只要像在图形界面上一样使用 selenium 就可以了。</p>
+<p>示例代码 (python)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">browser = webdriver.Firefox()</span><br><span class="line">browser.get(<span class="string">'http://www.baidu.com'</span>)</span><br><span class="line"><span class="keyword">print</span> browser.title</span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/05/java编程体系/" itemprop="url">
+                  java编程体系
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-07-05T10:36:08+08:00" content="2016-07-05">
+              2016-07-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/05/java编程体系/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/05/java编程体系/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>别人整理的 java 各方面知识点</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=577b1d1dab64414433001092" alt="java编程体系"></p>
+<p><a href="http://my.oschina.net/psuyun/blog/160516" target="_blank" rel="external">原文链接</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/16/gitlab 简要说明/" itemprop="url">
+                  gitlab 简要说明
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-16T16:28:26+08:00" content="2016-05-16">
+              2016-05-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/16/gitlab 简要说明/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/16/gitlab 简要说明/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h2 id="安装路径">安装路径</h2><pre><code><span class="regexp">/var/</span>opt<span class="regexp">/gitlab/</span>
+</code></pre><p>gitlab 自带 nginx, postgresql, redis，如果需要修改这些组件的配置，要到安装路径下相应子目录配置。</p>
+<h2 id="仓库路径">仓库路径</h2><pre><code><span class="regexp">/var/</span>opt<span class="regexp">/gitlab/gi</span>t-data<span class="regexp">/repositories/</span>
+</code></pre><h2 id="重启命令">重启命令</h2><pre><code>gitlab-ctl restart
+</code></pre><h2 id="重新配置">重新配置</h2><pre><code><span class="comment"># 修改配置文件，重新配置 gitlab</span>
+<span class="title">vim</span> /etc/gitlab/gitlab.rb
+gitlab-ctl reconfigure
+</code></pre><p>gitlab.rb 里包含了域名，端口，邮箱等配置，修改配置请使用以上命令。/var/opt/gitlab下的 gitlab-rails 等目录也可以修改配置，但是执行 gitlab-ctl reconfigure 命令后会被覆盖。</p>
+<p>某些配置不正确或者目录文件权限不正确会导致运行不正常，这个时候也可以重新配置 gitlab。</p>
+<h2 id="备份与恢复">备份与恢复</h2><h3 id="备份">备份</h3><pre><code><span class="tag">gitlab-rake</span> <span class="tag">gitlab</span><span class="pseudo">:backup</span><span class="pseudo">:create</span>
+</code></pre><p>默认备份路径为/var/opt/gitlab/backups。<br>文件名格式如1461464351_gitlab_backup.tar </p>
+<h3 id="恢复">恢复</h3><pre><code><span class="preprocessor"># 从<span class="number">1393513186</span>编号备份中恢复</span>
+gitlab-rake gitlab:backup:restore BACKUP=<span class="number">1393513186</span>
+</code></pre><h3 id="迁移">迁移</h3><p>迁移如同备份与恢复的步骤一样, 只需要将老服务器/var/opt/gitlab/backups目录下的备份文件拷贝到新服务器上的/var/opt/gitlab/backups即可(如果你没修改过默认备份目录的话). <strong>但是需要注意的是新服务器上的Gitlab的版本必须与创建备份时的Gitlab版本号相同.</strong> 比如新服务器安装的是最新的7.60版本的Gitlab, 那么迁移之前, 最好将老服务器的Gitlab 升级为7.60在进行备份.</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/13/bash date 命令的格式/" itemprop="url">
+                  bash date 命令的格式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-13T20:59:52+08:00" content="2016-05-13">
+              2016-05-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/13/bash date 命令的格式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/13/bash date 命令的格式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>bash 的 date 命令用于显示时间，以下是使用 date 显示各种格式时间的参数</p>
 <table>
 <thead>
 <tr>
-<th>函数名</th>
-<th>参数</th>
-<th>返回类型</th>
-<th>示例</th>
+<th>Format/result</th>
+<th>Command</th>
+<th>Output</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Predicate<t></t></td>
-<td>T</td>
-<td>boolean</td>
-<td>判断合格</td>
+<td>YY-MM-DD_hh:mm:ss</td>
+<td>date +%F_%T</td>
+<td>2013-05-17_10:16:09</td>
 </tr>
 <tr>
-<td>Consumer<t></t></td>
-<td>T</td>
-<td>void</td>
-<td>日志记录</td>
+<td>YYMMDD_hhmmss</td>
+<td>date +%Y%m%d_%H%M%S</td>
+<td>20130517_101609</td>
 </tr>
 <tr>
-<td>Function<t,r></t,r></td>
-<td>T</td>
-<td>R</td>
-<td>获取对象成员</td>
+<td>YYMMDD_hhmmss (UTC version)</td>
+<td>date –utc +%Y%m%d_%H%M%SZ</td>
+<td>20130517_011609Z</td>
 </tr>
 <tr>
-<td>Supplier<t></t></td>
-<td>None</td>
-<td>T</td>
-<td>工厂方法</td>
+<td>YYMMDD_hhmmss (with local TZ)</td>
+<td>date +%Y%m%d_%H%M%S%Z</td>
+<td>20130517_101609JST</td>
 </tr>
 <tr>
-<td>UnaryOperator<t></t></td>
-<td>T</td>
-<td>T</td>
-<td>小写转大写</td>
+<td>YYMMSShhmmss</td>
+<td>date +%Y%m%d%H%M%S</td>
+<td>20130517101609</td>
 </tr>
 <tr>
-<td>BinaryOperator<t></t></td>
-<td>（T，T）</td>
-<td>T</td>
-<td>两数之和</td>
+<td>YYMMSShhmmssnnnnnnnnn</td>
+<td>date +%Y%m%d%H%M%S%N</td>
+<td>20130517101609418928482</td>
+</tr>
+<tr>
+<td>Seconds since UNIX epoch:</td>
+<td>date +%s</td>
+<td>1368753369</td>
+</tr>
+<tr>
+<td>Nanoseconds only:</td>
+<td>date +%N</td>
+<td>427187053</td>
+</tr>
+<tr>
+<td>Nanoseconds since UNIX epoch:</td>
+<td>date +%s%N</td>
+<td>1368753369431083605</td>
+</tr>
+<tr>
+<td>ISO8601 UTC timestamp</td>
+<td>date –utc +%FT%TZ</td>
+<td>2013-05-17T01:16:09Z</td>
+</tr>
+<tr>
+<td>ISO8601 Local TZ timestamp</td>
+<td>date +%FT%T%Z</td>
+<td>2013-05-17T10:16:09JST</td>
 </tr>
 </tbody>
 </table>
-<h1 id="Stream">Stream</h1><ul>
-<li>Stream是Java8中重要的特性之一，它是一组对集合的操作方法，使得程序员得以站在更高的抽象层次上对集合进行操作</li>
-<li>Stream中提供并行操作，使得对集合进行一些并行操作变得更加容易</li>
-</ul>
-<h2 id="示例">示例</h2><p>给字符串列表加前缀，并且转为数组，期间不能修改原来列表。</p>
-<p>通常：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; cityList = ....;</span><br><span class="line">String[] cityArrays = <span class="keyword">new</span> String[cityList.size()]; </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cityList.size(); i++) &#123;</span><br><span class="line">    cityArrays[i] = pre + cityList.get(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>使用Stream：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; cityList = ....;</span><br><span class="line">String[] cityArray = cityList.stream()</span><br><span class="line">         .map(city -&gt; pre + city)  <span class="comment">// 惰性求值</span></span><br><span class="line">         .toArray(String[]::<span class="keyword">new</span>);   <span class="comment">// 及早求值</span></span><br></pre></td></tr></table></figure></p>
-<p>使用Stream简化了代码，也使得业务流程更加清晰。</p>
-<p>惰性求值是一个中间过程，它的返回值还是Stream。<br>及早求值是一个结束过程，它的返回值是相应的结果类型。<br>惰性求值一般表示Stream流还在继续,因此一条流中可以有多个惰性求值，而及早求值一般表示一条Stream流结束，因此一条流中最多只有一次及早求值。</p>
-<p><strong>注意：如果一条Stream调用链中，没有及早求值，该调用链实际是不执行的。</strong></p>
-<h2 id="stream_方法">stream 方法</h2><h3 id="构建流对象的方式">构建流对象的方式</h3><ul>
-<li><p>Stream.of()</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Stream&lt;String&gt; stream = Stream.of(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"g"</span>);</span><br><span class="line">        stream.forEach(p -&gt; System.out.println(p));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>Collection.stream()</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; strings = Arrays.asList(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"g"</span>);</span><br><span class="line">        Stream&lt;String&gt; stream = strings.stream();</span><br><span class="line">        stream.forEach(p -&gt; System.out.println(p));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Stream.generate()</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Stream&lt;Double&gt; stream = Stream.generate(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> Math.random();</span><br><span class="line">        &#125;).limit(<span class="number">5</span>);</span><br><span class="line">        stream.forEach(p -&gt; System.out.println(p));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用 iterate()</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Stream&lt;Integer&gt; stream = Stream.iterate(<span class="number">10</span>, i -&gt; i + <span class="number">10</span>).limit(<span class="number">5</span>);</span><br><span class="line">        stream.forEach(i -&gt; System.out.println(i));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用 CharSequence.chars()</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        IntStream stream = <span class="string">"ABCDEFG_abcdefg"</span>.chars();</span><br><span class="line">        stream.forEach(p -&gt; System.out.println(p));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="转换流为集合">转换流为集合</h3><ul>
-<li><p>stream.collect(Collectors.toList()) 把 Stream 转换为 List</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>);</span><br><span class="line">        Stream&lt;Integer&gt; stream = list.stream();</span><br><span class="line">        List&lt;Integer&gt; oddNumbersList = stream.filter(i -&gt; i % <span class="number">2</span> != <span class="number">0</span>).collect(Collectors.toList());</span><br><span class="line">        System.out.print(oddNumbersList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>stream.collect(Collectors.toSet()) 把 Stream 转换为 Set</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>);</span><br><span class="line">        Stream&lt;Integer&gt; stream = list.stream();</span><br><span class="line">        List&lt;Integer&gt; oddNumbersSet = stream.filter(i -&gt; i % <span class="number">2</span> != <span class="number">0</span>).collect(Collectors.toSet());</span><br><span class="line">        System.out.print(oddNumbersSet);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>stream.toArray(EntryType[]::new) 把 Stream 转换为数组</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamBuilders</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>);</span><br><span class="line">        Stream&lt;Integer&gt; stream = list.stream();</span><br><span class="line">        Integer[] oddNumbersArray = stream.filter(i -&gt; i % <span class="number">2</span> != <span class="number">0</span>).toArray(Integer[]::<span class="keyword">new</span>);</span><br><span class="line">        System.out.print(oddNumbersArray);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="核心的流操作">核心的流操作</h3><p>我们先构建一个字符串集合，下面的例子都会基于这个集合进行操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; provinceNames = Arrays.asList(<span class="string">"湖南"</span>, <span class="string">"湖北"</span>, <span class="string">"河南"</span>, <span class="string">"河北"</span>, <span class="string">"广东"</span>, <span class="string">"广西"</span>, <span class="string">"北京"</span>, <span class="string">"南京"</span>);</span><br></pre></td></tr></table></figure></p>
-<h4 id="中间操作">中间操作</h4><p>中间操作返回流对象，所以你可以把多个中间操作串成一行。 </p>
-<ul>
-<li><p>filter()</p>
-<ul>
-<li>filter 方法接受一个断言对象，用来过滤流中的元素。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">provinceNames.stream().filter((p) -&gt; p.startsWith(<span class="string">"湖"</span>)).forEach(p -&gt; System.out.print(p + <span class="string">", "</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : </span></span><br><span class="line"><span class="comment">// 湖南, 湖北,</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>map()</p>
-<ul>
-<li>这个中间操作使用给定的函数把流中的每个元素转换为另一个对象。下面的例子把每个字符串转化为另一个字符串（末尾多了一个人字）。但是你也可以把每个对象转换为其它类型的对象。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">provinceNames.stream().map(p -&gt; p + <span class="string">"人, "</span>).forEach(p -&gt; System.out.print(p));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : </span></span><br><span class="line"><span class="comment">// 湖南人, 湖北人, 河南人, 河北人, 广东人, 广西人, 北京人, 南京人,</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>sorted()</p>
-<ul>
-<li><p>sorted 会对流中的元素进行排序，默认按自然序进行排序，除非你指定一个自定义的比较器（Comparator） 。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">provinceNames.stream().sorted().map(p -&gt; p + <span class="string">"人, "</span>).forEach(p -&gt; System.out.print(p));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : </span></span><br><span class="line"><span class="comment">// 北京人, 南京人, 广东人, 广西人, 河北人, 河南人, 湖北人, 湖南人,</span></span><br></pre></td></tr></table></figure>
-<p>  需要注意的是 sorted 仅仅对流中的元素进行排序，而不会影响后面的集合，集合中的元素排序保持不变。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="末端操作">末端操作</h4><p>末端操作返回某一类型的结果，而不是流对象。 </p>
-<ul>
-<li><p>forEach()</p>
-<ul>
-<li>该方法帮助迭代流中的元素并在元素上执行一些操作。这些操作可以是 lambda 表达式或者方法引用。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">provinceNames.stream().forEach(System.out::println);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>collect()</p>
-<ul>
-<li>collect() 方法用来从流中抽取元素然后保存到一个集合或者数组中。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; provinceNamesOrdered = provinceNames.stream().sorted().collect(Collectors.toList());</span><br><span class="line">System.out.print(provinceNamesOrdered);</span><br><span class="line"><span class="comment">// 输出 : </span></span><br><span class="line"><span class="comment">// [北京, 南京, 广东, 广西, 河北, 河南, 湖北, 湖南]</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>match()</p>
-<ul>
-<li>各种匹配操作用来检查流中的元素是否指定断言条件。所有的匹配操作都是末端操作，它们返回布尔结果。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> matchedResult = provinceNames.stream().anyMatch((s) -&gt; s.startsWith(<span class="string">"湖"</span>));</span><br><span class="line">System.out.println(matchedResult);</span><br><span class="line"></span><br><span class="line">matchedResult = provinceNames.stream().allMatch((s) -&gt; s.startsWith(<span class="string">"湖"</span>));</span><br><span class="line">System.out.println(matchedResult);</span><br><span class="line"></span><br><span class="line">matchedResult = provinceNames.stream().noneMatch((s) -&gt; s.startsWith(<span class="string">"湖"</span>));</span><br><span class="line">System.out.println(matchedResult);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : </span></span><br><span class="line"><span class="comment">// true</span></span><br><span class="line"><span class="comment">// false</span></span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>count()</p>
-<ul>
-<li>count 末端操作返回流中元素个数。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> totalMatched = provinceNames.stream().count();</span><br><span class="line">System.out.println(totalMatched);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : 8</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>reduce()</p>
-<ul>
-<li>该末端操作使用给定的函数对流中的元素进行归约。它是这样一个过程：每次迭代，将上一次的迭代结果（第一次时为 identity 的元素，如没有 identity 则为流中的第一个元素）与下一个元素一同执行一个二元函数。在 reduce 操作中，identity 是可选的，如果使用，则作为第一次迭代的第一个元素使用。归约的结果保存在 Optional 中。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; reduced = provinceNames.stream().reduce((s1, s2) -&gt; s1 + <span class="string">"#"</span> + s2);</span><br><span class="line">reduced.ifPresent(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : </span></span><br><span class="line"><span class="comment">// 湖南#湖北#河南#河北#广东#广西#北京#南京</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="短路操作">短路操作</h4><p>流操作通常会在流中满足某一断言的所有元素上进行操作，有时我们希望在迭代过程中遇到匹配的元素时就终止操作，在外部迭代中，你需要写 if-else 代码块，在内部迭代中，有现成的方法可以使用，下面是两个这样的方法的示例： </p>
-<ul>
-<li><p>anyMatch()</p>
-<ul>
-<li>该操作只要遇到满足断言条件的元素就会返回 true,在此之后就不再处理任何其它的元素了。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> matched = provinceNames.stream().anyMatch((s) -&gt; s.startsWith(<span class="string">"河"</span>));</span><br><span class="line">System.out.println(matched);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : true</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>findFirst()</p>
-<ul>
-<li>该操作会返回流中的第一个元素，然后就不再处理其它元素了。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String firstMatchedName = provinceNames.stream().filter((s) -&gt; s.startsWith(<span class="string">"广"</span>)).findFirst().get();</span><br><span class="line">System.out.println(firstMatchedName);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 : 广东</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="Optional_接口">Optional 接口</h1><p>Optional 被定义为一个简单的容器，其值可能是null或者不是null<br>在Java 8之前一般某个函数应该返回非空对象但是偶尔却可能返回了null<br>在Java 8中，不推荐你返回null而是返回Optional</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String temp = <span class="string">"temp"</span>;</span><br><span class="line">Optional&lt;String&gt; stringOptional = Optional.ofNullable(temp);</span><br><span class="line"><span class="comment">// 不为空则执行</span></span><br><span class="line">stringOptional.ifPresent(System.out::println);</span><br><span class="line"><span class="comment">// 不为空返回值，为空则返回指定的值</span></span><br><span class="line">stringOptional.orElse(<span class="string">"tempElse"</span>);</span><br></pre></td></tr></table></figure>
-<p>将电话号码列表转化为以逗号隔开的字符串，如果为空则抛出异常<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String phoneNumber = subList.stream()</span><br><span class="line">        .reduce((a, b) -&gt; a + <span class="string">","</span> + b)</span><br><span class="line">        .orElseThrow(Exception::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure></p>
 
             
           </span>
@@ -576,8 +954,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/03/3d-touch/" itemprop="url">
-                  3D Touch 开发简介
+                <a class="post-title-link" href="/2016/03/17/各个浏览器调用堆栈(Call Stack)的最大深度/" itemprop="url">
+                  各个浏览器调用堆栈(Call Stack)的最大深度
                 </a>
               
             
@@ -587,19 +965,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-03T09:57:56+08:00" content="2015-12-03">
-              2015-12-03
+            <time itemprop="dateCreated" datetime="2016-03-17T15:56:12+08:00" content="2016-03-17">
+              2016-03-17
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/03/3d-touch/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/03/3d-touch/" itemprop="commentsCount"></span>
+                <a href="/2016/03/17/各个浏览器调用堆栈(Call Stack)的最大深度/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/17/各个浏览器调用堆栈(Call Stack)的最大深度/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -621,73 +1014,7 @@
         
           <span itemprop="articleBody">
             
-              <h1 id="图标快捷菜单">图标快捷菜单</h1><p>iOS 9 新增了桌面图标快捷菜单的功能(Home Screen Quick Actions)。用户按压桌面图标能弹出几个选项，进行某些快捷操作。</p>
-<p>iOS 9 下每个应用最多能显示4个桌面快捷选项。系统优先显示静态快捷选项，从上往下。如果未超出限制，且应用有定义动态快捷选项，显示动态快捷选项。</p>
-<h2 id="静态快捷选项">静态快捷选项</h2><p>在应用的 Info.plist 顶层中新增 UIApplicationShortcutItems 数组。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItems<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">array</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemIconType<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>UIApplicationShortcutIconTypeSearch<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemSubtitle<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>shortcutSubtitle1<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemTitle<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>shortcutTitle1<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemType<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>$(PRODUCT_BUNDLE_IDENTIFIER).First<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemUserInfo<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">dict</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">key</span>&gt;</span>firstShorcutKey1<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">string</span>&gt;</span>firstShortcutKeyValue1<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="title">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemIconType<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>UIApplicationShortcutIconTypeShare<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemSubtitle<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>shortcutSubtitle2<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemTitle<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>shortcutTitle2<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemType<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">string</span>&gt;</span>$(PRODUCT_BUNDLE_IDENTIFIER).Second<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">key</span>&gt;</span>UIApplicationShortcutItemUserInfo<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">dict</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">key</span>&gt;</span>secondShortcutKey1<span class="tag">&lt;/<span class="title">key</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">string</span>&gt;</span>secondShortcutValue1<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="title">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">array</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>静态定义快速在运行时常用的key:</p>
-<table>
-<thead>
-<tr>
-<th>key</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UIApplicationShortcutItemType</td>
-<td>(必须使用) 用来区分与其他快速选项的分类</td>
-</tr>
-<tr>
-<td>UIApplicationShortcutItemTitle</td>
-<td>(必须使用) 快速选项显示的标题</td>
-</tr>
-<tr>
-<td>UIApplicationShortcutItemSubtitle</td>
-<td>快速选项显示的子标题</td>
-</tr>
-<tr>
-<td>UIApplicationShortcutItemIconType</td>
-<td>图片类型由系统提供</td>
-</tr>
-<tr>
-<td>UIApplicationShortcutItemIconFile</td>
-<td>自定义的图标</td>
-</tr>
-<tr>
-<td>UIApplicationShortcutItemUserInfo</td>
-<td>附加信息</td>
-</tr>
-</tbody>
-</table>
-<h2 id="动态快捷选项">动态快捷选项</h2><p>指定[UIApplication sharedApplication].shortcutItems。<br>动态快捷选项必须启动应用且设置shortcutItems后，才能生效。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)setupApplicationShortcutItems</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">UIApplicationShortcutIcon</span> *homeIcon =</span><br><span class="line">        [<span class="built_in">UIApplicationShortcutIcon</span> iconWithType:<span class="built_in">UIApplicationShortcutIconTypeCompose</span>];</span><br><span class="line">    <span class="built_in">NSDictionary</span> *userInfo1 = @&#123;<span class="string">@"key"</span>:<span class="string">@"home"</span>&#125;;</span><br><span class="line">    <span class="built_in">NSDictionary</span> *userInfo2 = @&#123;<span class="string">@"key"</span>:<span class="string">@"message"</span>&#125;;</span><br><span class="line">    <span class="built_in">UIMutableApplicationShortcutItem</span> *homeShortcutItem =</span><br><span class="line">        [[<span class="built_in">UIMutableApplicationShortcutItem</span> alloc] initWithType:<span class="string">@"home"</span></span><br><span class="line">                                                localizedTitle:<span class="string">@"主页"</span></span><br><span class="line">                                             localizedSubtitle:<span class="string">@"跳转主页"</span></span><br><span class="line">                                                          icon:homeIcon</span><br><span class="line">                                                      userInfo:userInfo1];</span><br><span class="line">    <span class="built_in">UIMutableApplicationShortcutItem</span> *messageShortcutItem =</span><br><span class="line">        [[<span class="built_in">UIMutableApplicationShortcutItem</span> alloc] initWithType:<span class="string">@"message"</span></span><br><span class="line">                                                localizedTitle:<span class="string">@"消息"</span></span><br><span class="line">                                             localizedSubtitle:<span class="string">@"跳转消息"</span></span><br><span class="line">                                                          icon:<span class="literal">nil</span></span><br><span class="line">                                                      userInfo:userInfo2];</span><br><span class="line">    <span class="built_in">NSArray</span> *items = @[homeShortcutItem,messageShortcutItem];</span><br><span class="line">    [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.shortcutItems</span> = items;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application</span><br><span class="line">    didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</span><br><span class="line">    [<span class="keyword">self</span> setupApplicationShortcutItems];</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="快捷选项操作">快捷选项操作</h2><p>在AppDelegate.m文件中添加<br>application:performActionForShortcutItem:completionHandler:<br>代理方法，根据UIApplicationShortcutItem的type属性和之前在info.plist设置UIApplicationShortcutItemType对应的在值来判断，用户点击的是哪个快速选项。这个方法在接近激活应用时就会调用，除了<br>-application:willFinishLaunchingWithOptions:<br>or<br>-application:didFinishLaunchingWithOptions<br>returns NO.<br>这种情况。</p>
-<p>在-application:didFinishLaunchingWithOptions<br>中可以通过UIApplicationLaunchOptionsShortcutItemKey键来获取当前接收快速选项的UIApplicationShortcutItem对象，来处理用户的意图。</p>
-<h1 id="Peek_和_Pop">Peek 和 Pop</h1><p>这个功能是一套全新的用户交互机制，在使用3D Touch时，ViewController中会有如下三个交互阶段：</p>
-<ol>
-<li>提示用户这里有3D Touch的交互，会使交互控件周围模糊</li>
-<li>继续深按，会出现预览视图</li>
-<li>通过视图上的交互控件进行进一步交互</li>
-</ol>
-<p>peek 和 pop 的核心主要是 iOS9 上新增的以下几个代理方法：</p>
-<ul>
-<li>registerForPreviewingWithDelegate:sourceView:</li>
-<li>previewingContext:viewControllerForLocation:</li>
-<li>previewingContext:commitViewController:</li>
-<li>previewActionItems</li>
-</ul>
-<p>下面结合几段代码看看 peek 和 pop 的用法。</p>
-<p>假设现在有两个 ViewController，MasterViewController 和 DetailViewController，MasterViewController 上有一个 TableView，点击上面的 Cell 进入 DetailViewController。</p>
-<p>首先，MasterViewController 需要调用注册接口以支持3D touch，指定接收3D touch 事件的 view 和处理 peek 和 pop 的代理 。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断设备是否支持3D touch</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.traitCollection</span><span class="variable">.forceTouchCapability</span> == <span class="built_in">UIForceTouchCapabilityAvailable</span>) &#123;</span><br><span class="line">    <span class="comment">// 支持 3D touch 的话，注册 ViewController 以使用 peek 和 pop。</span></span><br><span class="line">    <span class="comment">// 指定 Previewing 的代理为 MasterViewcontroller 自己。</span></span><br><span class="line">    [<span class="keyword">self</span> registerForPreviewingWithDelegate:<span class="keyword">self</span> sourceView:<span class="keyword">self</span><span class="variable">.view</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果考虑得周全一点，应该在识别到用户关闭了 3D touch 时，调用unregisterForPreviewingWithContext:注销 3D touch。</p>
-<p>接下来，在 MasterViewController 上需要实现以下代理。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Pop 事件代理, 重按时进入 DetailViewController</span></span><br><span class="line">- (<span class="keyword">void</span>)previewingContext:(<span class="keyword">id</span>&lt;<span class="built_in">UIViewControllerPreviewing</span>&gt;)previewingContext</span><br><span class="line">     commitViewController:(<span class="built_in">UIViewController</span> *)viewControllerToCommit &#123;</span><br><span class="line">    [<span class="keyword">self</span> showViewController:viewControllerToCommit sender:<span class="keyword">self</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Peek 事件代理，识别 Peek 操作点击区域，指定预览的 ViewController</span></span><br><span class="line">- (<span class="built_in">UIViewController</span> *)previewingContext:(<span class="keyword">id</span>&lt;<span class="built_in">UIViewControllerPreviewing</span>&gt;)previewingContext</span><br><span class="line">              viewControllerForLocation:(<span class="built_in">CGPoint</span>)location &#123;</span><br><span class="line">    <span class="built_in">NSIndexPath</span> *indexPath = [_tableView indexPathForRowAtPoint:location];</span><br><span class="line">    <span class="built_in">UITableViewCell</span> *cell = [_tableView cellForRowAtIndexPath:indexPath];</span><br><span class="line">    <span class="keyword">if</span> (cell == <span class="literal">nil</span>) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    </span><br><span class="line">    DetailViewController *detailViewController = [DetailViewController new];</span><br><span class="line">    <span class="comment">// 读取对应 model 数据到 DetailViewController 中。</span></span><br><span class="line">    [detailViewControler loadDataFromModel:<span class="keyword">self</span><span class="variable">.modelList</span>[indexPath<span class="variable">.row</span>]];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置点击的 cell，聚集此处，周围会产生模糊效果</span></span><br><span class="line">    [previewingContext setSourceRect:cell<span class="variable">.frame</span>];</span><br><span class="line">    <span class="comment">// 设置预览框大小，设置或设置为0会使用默认大小。</span></span><br><span class="line">    [detailViewController setPreferredContentSize = <span class="built_in">CGSizeMake</span>(<span class="number">0</span>, previewDetail<span class="variable">.preferredHeight</span>)];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> cv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通常，在弹出预览窗口后，可以上滑，弹出菜单，进行某些快捷操作。前提是预览的 ViewController 实现了-previewActionItems，指定了peek 快捷操作。如果没实现该代理，则没有快捷菜单，弹出预览后滑动没有效果，放开就消失了。<br>快捷菜单可以通过 UIPreiveActionGroup 组织成多个层级，详情见代码。</p>
-<p>以下是 DetailViewController 的 previewActionItems 示例。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSArray</span>&lt;<span class="keyword">id</span>&lt;<span class="built_in">UIPreviewActionItem</span>&gt;&gt; *)previewActionItems &#123;</span><br><span class="line">    <span class="built_in">UIPreviewAction</span> *action1 = [<span class="built_in">UIPreviewAction</span> actionWithTitle:<span class="string">@"action1"</span></span><br><span class="line">                                                          style:<span class="built_in">UIPreviewActionStyleDefault</span></span><br><span class="line">                                                        handler:^(<span class="built_in">UIPreviewAction</span> * _Nonnull action, <span class="built_in">UIViewController</span> * _Nonnull previewViewController) &#123;</span><br><span class="line">                                                            <span class="built_in">NSLog</span>(<span class="string">@"preview action 1"</span>);</span><br><span class="line">                                                        &#125;];</span><br><span class="line">    <span class="built_in">UIPreviewAction</span> *action2 = [<span class="built_in">UIPreviewAction</span> actionWithTitle:<span class="string">@"action2"</span></span><br><span class="line">                                                          style:<span class="built_in">UIPreviewActionStyleDestructive</span></span><br><span class="line">                                                        handler:^(<span class="built_in">UIPreviewAction</span> * _Nonnull action, <span class="built_in">UIViewController</span> * _Nonnull previewViewController) &#123;</span><br><span class="line">                                                            <span class="built_in">NSLog</span>(<span class="string">@"preview action 2"</span>);</span><br><span class="line">                                                        &#125;];</span><br><span class="line">    <span class="built_in">UIPreviewAction</span> *action3 = [<span class="built_in">UIPreviewAction</span> actionWithTitle:<span class="string">@"action3"</span></span><br><span class="line">                                                          style:<span class="built_in">UIPreviewActionStyleSelected</span></span><br><span class="line">                                                        handler:^(<span class="built_in">UIPreviewAction</span> * _Nonnull action, <span class="built_in">UIViewController</span> * _Nonnull previewViewController) &#123;</span><br><span class="line">                                                            <span class="built_in">NSLog</span>(<span class="string">@"preview action 3"</span>);</span><br><span class="line">                                                        &#125;];</span><br><span class="line">    <span class="built_in">UIPreviewActionGroup</span> *actionGroup = [<span class="built_in">UIPreviewActionGroup</span> actionGroupWithTitle:<span class="string">@"action group"</span></span><br><span class="line">                                                                        style:<span class="built_in">UIPreviewActionStyleDefault</span></span><br><span class="line">                                                                      actions:@[action2, action3] ];</span><br><span class="line">    <span class="keyword">return</span> @[action1, actionGroup];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="UITouch">UITouch</h1><p>UITouch 新增两个用于 3d touch 的字段: force 和 maximumPossibleForce。这些属性可以让你侦测并响应APP接收的UIEvent触摸压力。</p>
+              <p>Firefox 3.6 — 3000<br>Firefox 4 — 9016<br>Chrome — 26210<br>IE8 — 3063<br>IE9 — 4381<br>IE6 — 2542<br>Opera — 16384<br>Safari — 卡死</p>
 
             
           </span>
@@ -730,8 +1057,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/01/fix-xcode-plugin/" itemprop="url">
-                  Xcode升级后插件失效修复方法
+                <a class="post-title-link" href="/2016/02/16/iOS GCD 之 dispatch_group/" itemprop="url">
+                  iOS GCD 之 dispatch_group
                 </a>
               
             
@@ -741,19 +1068,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-01T22:04:05+08:00" content="2015-12-01">
-              2015-12-01
+            <time itemprop="dateCreated" datetime="2016-02-16T21:31:08+08:00" content="2016-02-16">
+              2016-02-16
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/01/fix-xcode-plugin/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/01/fix-xcode-plugin/" itemprop="commentsCount"></span>
+                <a href="/2016/02/16/iOS GCD 之 dispatch_group/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/16/iOS GCD 之 dispatch_group/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -775,8 +1117,30 @@
         
           <span itemprop="articleBody">
             
-              <p>经常在升级了 Xcode 之后出现插件失效和情况，解决方法是执行以下命令，增加新版本 Xcode 的 UUID 到插件的 Info.plist 中。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins -name Info.plist -maxdepth <span class="number">3</span> | xargs -I&#123;&#125; defaults write &#123;&#125; DVTPlugInCompatibilityUUIDs -array-add `defaults <span class="built_in">read</span> /Applications/Xcode.app/Contents/Info.plist DVTPlugInCompatibilityUUID`</span><br></pre></td></tr></table></figure>
+              <h1 id="问题的产生">问题的产生</h1><p>在开发过程中有时会遇到这样的需求：并发执行一组任务，任务全部结束后，对执行结果进行某些操作。</p>
+<p>比如类似下面这样。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">id</span> obj <span class="keyword">in</span> array) &#123;</span><br><span class="line">    [<span class="keyword">self</span> doSomethingIntensiveWith:obj];</span><br><span class="line">&#125;</span><br><span class="line">[<span class="keyword">self</span> doSomethingWithArray:array];</span><br></pre></td></tr></table></figure>
+<p>直接使用以上代码会导致阻塞，等待任务组全部都执行完才执行 doSomethingWithArray: 。</p>
+<p>简单地加入 dispatch_async 也是不行的，这样 doSomethingWithArray: 不能在正确的时机运行。</p>
+<h1 id="不使用_dispatch_group_的解决方案">不使用 dispatch_group 的解决方案</h1><p>在知道 dispatch_group 之前 ，我的解决方法是加入一个原子计数器，等所有任务都执行完了，再执行结果列表的操作。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">__block <span class="keyword">volatile</span> int32_t remainCount = (int32_t)array<span class="variable">.count</span>;</span><br><span class="line"><span class="keyword">void</span> (^checkRemainCountBlock)(<span class="keyword">void</span>) = ^(<span class="keyword">void</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (remainCount == <span class="number">0</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> doSomeThingWithArray:array];</span><br><span class="line">    &#125;</span><br><span class="line">    OSAtomicDecrement32Barrier(&amp;remainCount);</span><br><span class="line">&#125;;</span><br><span class="line">checkRemainCountBlock();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">id</span> obj <span class="keyword">in</span> array) &#123;</span><br><span class="line">    [<span class="keyword">self</span> doSomethingIntensiveWith:obj];</span><br><span class="line">    checkRemainCountBlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用_dispatch_group_的解决方案">使用 dispatch_group 的解决方案</h1><p>可以看到，上面的方法不太优雅。事实上，Apple 为我们准备了专门用来处理这种问题的 dispatch_group。</p>
+<p>一个 dispatch group 可以用来将多个 block 组成一组以监测这些 block 全部完成或者等待全部完成时发出的消息。所以我们现在可以重写代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_qeueue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">id</span> obj <span class="keyword">in</span> array) &#123;</span><br><span class="line">    dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">        [<span class="keyword">self</span> doSomethingIntensiveWith:obj];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* </span><br><span class="line"> * 等group里的task都执行完后执行notify方法里的内容,</span><br><span class="line"> * 相当于把wait方法及之后要执行的代码合到一起了</span><br><span class="line"> */</span></span><br><span class="line">dispatch_group_notify(group, queue, ^&#123;</span><br><span class="line">    [<span class="keyword">self</span> doSomethingWithArray:array];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在不能使用 dispatch_group_async 的情况下，使用 dispatch_group_enter/dispatch_group_leave。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_qeueue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">id</span> obj <span class="keyword">in</span> array) &#123;</span><br><span class="line">    dispatch_group_enter(group);</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        [<span class="keyword">self</span> doSomethingIntensiveWith:obj];</span><br><span class="line">        dispatch_group_leave(group);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* </span><br><span class="line"> * 等group里的task都执行完后执行notify方法里的内容,</span><br><span class="line"> * 相当于把wait方法及之后要执行的代码合到一起了</span><br><span class="line"> */</span></span><br><span class="line">dispatch_group_notify(group, queue, ^&#123;</span><br><span class="line">    [<span class="keyword">self</span> doSomethingWithArray:array];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="dispatch_group_相关方法">dispatch_group 相关方法</h1><ul>
+<li><p>dispatch_group_create<br>  创建一个调度任务组</p>
+</li>
+<li><p>dispatch_group_async<br>  把一个任务异步提交到任务组里</p>
+</li>
+<li><p>dispatch_group_enter/dispatch_group_leave<br>  这两个方法显示的讲任务组中的任务未执行完毕的任务数目加减1，这种方式用在不使用 dispatch_group_async 提交任务的情况下。注意：这两个函数要配合使用，有 enter 要有 leave，这样才能保证功能完整实现。也可以用这对函数来让一个闭包关联多个 group</p>
+</li>
+<li><p>dispatch_group_notify<br>  用来监听任务组事件的执行完毕</p>
+</li>
+<li><p>dispatch_group_wait<br>  设置等待时间，在等待时间结束后，如果还没有执行完任务组，则返回。返回0代表执行成功，非0则执行失败</p>
+</li>
+</ul>
 
             
           </span>
@@ -819,8 +1183,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/01/hello-world/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2016/01/25/iOS 审核相关注意事项/" itemprop="url">
+                  iOS 审核相关注意事项
                 </a>
               
             
@@ -830,19 +1194,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-01T22:03:17+08:00" content="2015-12-01">
-              2015-12-01
+            <time itemprop="dateCreated" datetime="2016-01-25T09:39:31+08:00" content="2016-01-25">
+              2016-01-25
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/01/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/01/hello-world/" itemprop="commentsCount"></span>
+                <a href="/2016/01/25/iOS 审核相关注意事项/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/25/iOS 审核相关注意事项/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -864,15 +1243,34 @@
         
           <span itemprop="articleBody">
             
-              <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+              <ul>
+<li><p>不能要求用户安装其他应用的客户端。比如第三方分享，未安装客户端时，应使用网页登录；无法使用网页登录时（如微信），隐藏分享入口。</p>
+</li>
+<li><p>If some features require signing in, provide a valid demo account username and password.</p>
+</li>
+<li><p>If there are special configurations to set, include the specifics. If features require an environment that is hard to replicate or require specific hardware, be prepared to provide a demo video or the hardware. </p>
+</li>
+<li><p>Apps or metadata that mentions the name of any other mobile platform will be rejected</p>
+</li>
+<li><p>Apps with placeholder text will be rejected   （描述中提到与应用内容和功能无关信息会被拒。）     </p>
+</li>
+<li><p>App names in iTunes Connect and as displayed on a device should be similar, so as not to cause confusion（应用在iTunes Connect与设备上显示的名称应该类似，否则会造成混淆。）</p>
+</li>
+<li><p>Small and large App icons should be similar, so as to not to cause confusion（不同尺寸的icon要一致，否则会造成混淆。）</p>
+</li>
+<li><p>Apps that provide Push Notifications without using the Apple Push Notification (APN) API will be rejected（不使用Apple Push Notification（APN） API提供消息推送的应用会被拒。）</p>
+</li>
+<li><p>Apps that send Push Notifications without first obtaining user consent will be rejected（在首次推送消息之前未取得的用户允许的应用会被拒。）</p>
+</li>
+<li><p>If some features require signing in, provide a valid demo account username and password.</p>
+</li>
+<li><p>If there are special configurations to set, include the specifics. If features require an environment that is hard to replicate or require specific hardware, be prepared to provide a demo video or the hardware. </p>
+</li>
+<li><p>iPhone Apps must also run on iPad without modification, at iPhone resolution, and at 2X iPhone 3GS resolution</p>
+</li>
+<li><p>Apps that include undocumented or hidden features inconsistent with the description of the App will be rejected</p>
+</li>
+</ul>
 
             
           </span>
@@ -915,8 +1313,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/14/skiplist/" itemprop="url">
-                  跳跃表 SkipList 原理与实现
+                <a class="post-title-link" href="/2016/01/17/FIFA 2015 入门技巧/" itemprop="url">
+                  FIFA 2015 入门技巧
                 </a>
               
             
@@ -926,137 +1324,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-11-14T14:04:39+08:00" content="2015-11-14">
-              2015-11-14
+            <time itemprop="dateCreated" datetime="2016-01-17T00:26:38+08:00" content="2016-01-17">
+              2016-01-17
             </time>
           </span>
 
           
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/14/skiplist/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/14/skiplist/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>skiplist 又称跳跃表，是一个数据节构，可以实现红黑树类似的功能，插入或删除元素后保持有序。插入和删除的复杂度都是<em>O(log n)</em>。</p>
-<p>skiplist 除了具有红黑树的功能外，还能支持从下标取元素的操作（类似skipList[10]这样的访问）。</p>
-<p>skiplist 基于概率均衡，不保证平衡性（但通常效果都不错）。它相对于传统的平衡树优势在于原理更简单，代码实现上更简洁高效。</p>
-<h1 id="原理">原理</h1><p>跳跃表可以看作是传统单链表的扩展。有序的单链表插入和删除的复杂度都是<em>O(n)</em>的。</p>
-<p>跳跃表对有序单链表的每个节点进行了扩展。在每个节点原来有一个指向下一节点的指针的基础上，新增一系列指针，让第二个指针指向当前节点往后数第2个节点，第三个指针指向当前节点住后数第4个节点…以此类推，第n个指针指向当前点后的第$2^{n-1}$个节点。如下图如示。实际实现时，是基于随机算法，步长不是完全精确的为$2^{n-1}$。</p>
-<p><img src="http://redisbook.readthedocs.org/en/latest/_images/skiplist.png" alt="跳跃表"></p>
-<p>这样一来，插入、删除或者查找节点时，从上往下，先用上层的指针确定范围，再往下一层，减小步长，继续查找，缩小范围，直到确定位置。</p>
-<p>通过对单链表扩展，新增一系列步长指数增长的指针，跳跃表插入、删除、查找的复杂度优化到了<em>O(log n)</em>。</p>
-<h1 id="实现">实现</h1><p>接下来看看跳跃表的 java 实现。</p>
-<h2 id="数据结构">数据结构</h2><p>首先需要一个数据结构存储每个节点。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">        T element;              <span class="comment">// 该节点的标识，通常为 string</span></span><br><span class="line">        Integer score;          <span class="comment">// 该节点的值，作为排序依据</span></span><br><span class="line">        Node&lt;T&gt;[] backward;     <span class="comment">// 前驱</span></span><br><span class="line">        Node&lt;T&gt;[] level;        <span class="comment">// 后继</span></span><br><span class="line">        <span class="comment">// 跳跃跨度，表示当前节点与level[i]中间有多少个结点</span></span><br><span class="line">        <span class="keyword">int</span>[] span = <span class="keyword">new</span> <span class="keyword">int</span>[MAX_LEVEL];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后是整个跳跃表类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkipList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> MAX_LEVEL = <span class="number">32</span>;    <span class="comment">// 最大层数，32表示能存2^32个元素</span></span><br><span class="line">    <span class="keyword">private</span> Node&lt;E&gt; head;               <span class="comment">// 链表头指针，头指针和尾指针不存数据</span></span><br><span class="line">    <span class="keyword">private</span> Node&lt;E&gt; tail;               <span class="comment">// 链表尾指针</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> level;                   <span class="comment">// 当前跳跃表层数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> size;                    <span class="comment">// 链表元素个数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="查询">查询</h2><h3 id="查询对应位置的元素">查询对应位置的元素</h3><p>在维护好跳跃表的前提下，查询跳跃表中给定位置的元素是很容易的。</p>
-<ol>
-<li>从 head 结点开始，level = MAX_LEVEL - 1 开始遍历</li>
-<li>如果跳到 next[level] 后超出查询的下标，level 减1，节点的下标由遍历时前驱的 span 之和计算得来;</li>
-<li>否则跳到 next[level] 节点;</li>
-<li>重复2，3步，直到level=-1.</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Node&lt;E&gt; <span class="title">findEntry</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = MAX_LEVEL - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (entry.level[i] != <span class="keyword">null</span> &amp;&amp; entry.span[i] &lt;= index) &#123;</span><br><span class="line">            index -= entry.span[i];</span><br><span class="line">            entry = entry.level[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> entry;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="查询某个区间顺序所有元素">查询某个区间顺序所有元素</h3><p>先利用上一步结果，查到 startIdx 对应的结点，然后从该点开始遍历即可。</p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public <span class="type">Set</span>&lt;<span class="type">Pair</span>&lt;E, <span class="type">Integer</span>&gt;&gt; <span class="type">range</span>(<span class="type">int</span> startIdx, <span class="type">int</span> endIdx) &#123;</span><br><span class="line">        <span class="type">TreeSet</span>&lt;<span class="type">Pair</span>&lt;E, <span class="type">Integer</span>&gt;&gt; <span class="literal">result</span> = new <span class="type">TreeSet</span>&lt;<span class="type">Pair</span>&lt;E, <span class="type">Integer</span>&gt;&gt;(pairComparator);</span><br><span class="line">        <span class="type">Node</span>&lt;E&gt;node = this.findEntry(startIdx);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> idx = startIdx; idx &lt; endIdx + <span class="number">1</span> &amp;&amp; node != null &amp;&amp; node != tail; ++idx, node = node.level[<span class="number">0</span>]) &#123;</span><br><span class="line">            <span class="literal">result</span>.add(new <span class="type">Pair</span>&lt;E, <span class="type">Integer</span>&gt;(node.element, node.score));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="查询某个元素的下标">查询某个元素的下标</h3><p>和第一步查询下标对应的元素类似，上面是把 index 减到0，这边让 index 从0开始加，直到跳到链表中与要查询元素值一样的时候结束。最后得到的 index 便是需要的结果。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getIndex</span><span class="params">(Node&lt;E&gt;node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = Math.min(level, MAX_LEVEL - <span class="number">1</span>); i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (entry.level[i] != <span class="keyword">null</span> &amp;&amp; entry.level[i].compareTo(node) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            index += entry.span[i];</span><br><span class="line">            entry = entry.level[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">assert</span> entry.compareTo(node) &lt;= <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="插入元素">插入元素</h2><p>插入元素时，先利用前面的方法查找到需要插入的位置前插入，更新level 0的前驱后继关系。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E element, <span class="keyword">int</span> score)</span> </span>&#123;        </span><br><span class="line">    Node&lt;E&gt;node = <span class="keyword">new</span> Node&lt;E&gt;(element, score);</span><br><span class="line">    Node&lt;E&gt;entry = findEntry(element, score);</span><br><span class="line">    <span class="keyword">if</span> (entry.compareTo(node) == <span class="number">0</span> || (entry.level[<span class="number">0</span>] != <span class="keyword">null</span> &amp;&amp; entry.level[<span class="number">0</span>].compareTo(node) == <span class="number">0</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    node.span[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    size += <span class="number">1</span>;</span><br><span class="line">    Node&lt;E&gt;next = entry.level[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        next.backward[<span class="number">0</span>] = node;</span><br><span class="line">    &#125;</span><br><span class="line">    node.backward[<span class="number">0</span>] = entry;</span><br><span class="line">    node.level[<span class="number">0</span>] = next;</span><br><span class="line">    entry.level[<span class="number">0</span>] = node;</span><br><span class="line"></span><br><span class="line">    updateSpanAdd(node);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="插入元素后更新_span">插入元素后更新 span</h3><p>如果只是插入更新 level 0 指针，这样就退化成简单的双向链表了。我们还需要结新加入的结点随机赋予高度，并更新 span 值。<br>更新 span 的主要思想是，新加入节点在 level i 的 span 值为在 level i 的前驱(backward[i])的 span 值减去新节点同前驱的 index 之差。与此同时，更新前驱的 span 值。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateSpanAdd</span><span class="params">(Node&lt;E&gt; node)</span> </span>&#123;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    <span class="keyword">int</span> randomLevel = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 新节点赋予随机高度以维持平衡，保证平均复杂度为 O(log n)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; level; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Math.random() &gt; <span class="number">0.5</span>) &#123;</span><br><span class="line">            randomLevel++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 高度与目前最大高度相同，最大高度+1</span></span><br><span class="line">    <span class="keyword">if</span> (randomLevel == level &amp;&amp; level &lt; MAX_LEVEL - <span class="number">1</span>) &#123;</span><br><span class="line">        ++level;</span><br><span class="line">        head.span[level] = size;</span><br><span class="line">        head.level[level] = tail;</span><br><span class="line">        tail.backward[level] = head;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> nodeIndex = <span class="keyword">this</span>.getIndex(node);</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">    entry = head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = Math.min(level, MAX_LEVEL - <span class="number">1</span>); i &gt;= <span class="number">1</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (entry.level[i] != <span class="keyword">null</span> &amp;&amp; entry.level[i].compareTo(node) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            index += entry.span[i];</span><br><span class="line">            entry = entry.level[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">assert</span> entry.compareTo(node) &lt; <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (entry.span[i] != <span class="number">0</span> &amp;&amp; i &gt; <span class="number">0</span>) entry.span[i] += <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (i &lt;= randomLevel) &#123;</span><br><span class="line">            node.span[i] = entry.span[i] - (nodeIndex - index);</span><br><span class="line">            node.level[i] = entry.level[i];</span><br><span class="line">            entry.level[i] = node;</span><br><span class="line">            entry.span[i] = nodeIndex - index;</span><br><span class="line">            </span><br><span class="line">            node.backward[i] = entry;</span><br><span class="line">            Node&lt;E&gt;next = node.level[i];</span><br><span class="line">            <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                next.backward[i] = node;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="删除元素">删除元素</h2><h3 id="删除前更新_span">删除前更新 span</h3><p>与插入操作不同，删除元素时需要先更新 span，对要删除结点所有 level 上的前驱，对应的 span 减1。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateSpanRemove</span><span class="params">(Node&lt;E&gt; node)</span> </span>&#123;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = Math.min(level, MAX_LEVEL - <span class="number">1</span>); i &gt;= <span class="number">1</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (entry.level[i] != <span class="keyword">null</span> &amp;&amp; entry.level[i].compareTo(node) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            entry = entry.level[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (entry.span[i] != <span class="number">0</span> &amp;&amp; i &gt; <span class="number">0</span>) entry.span[i] -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="从跳跃表中删除元素">从跳跃表中删除元素</h3><p>查找到要删除元素的位置，从链接中删除。更新每个 level 上的前驱后继关系和前驱的 span 值。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(E element, <span class="keyword">int</span> score)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">FIXME:</span> 必要时降低 level</span></span><br><span class="line">    Node&lt;E&gt;node = <span class="keyword">new</span> Node&lt;E&gt;(element, score);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.updateSpanRemove(node);</span><br><span class="line">    Node&lt;E&gt;entry = findEntry(element, score);</span><br><span class="line">    <span class="keyword">if</span> (entry.compareTo(node) &lt; <span class="number">0</span> &amp;&amp; entry.level[<span class="number">0</span>] != <span class="keyword">null</span>) entry = entry.level[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (entry.compareTo(node) != <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = level; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        Node&lt;E&gt;prev = entry.backward[i];</span><br><span class="line">        Node&lt;E&gt;next = entry.level[i];</span><br><span class="line">        <span class="keyword">if</span> (prev != <span class="keyword">null</span>) &#123;</span><br><span class="line">            prev.level[i] = next;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">0</span>) prev.span[i] += entry.span[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">            next.backward[i] = prev;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    --size;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
               
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/life/" itemprop="url" rel="index">
+                    <span itemprop="name">life</span>
+                  </a>
+                </span>
+
                 
-                <a class="post-title-link" href="/2015/11/14/iOS-摘要/" itemprop="url">
-                  iOS 摘要
-                </a>
+                
+
               
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-14T00:00:56+08:00" content="2015-11-14">
-              2015-11-14
-            </time>
-          </span>
-
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/11/14/iOS-摘要/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/14/iOS-摘要/" itemprop="commentsCount"></span>
+                <a href="/2016/01/17/FIFA 2015 入门技巧/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/17/FIFA 2015 入门技巧/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1078,59 +1373,16 @@
         
           <span itemprop="articleBody">
             
-              <h1 id="plist">plist</h1><ul>
-<li><p>读取plist文件并转化为NSDictionary</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *documentsPath = [<span class="keyword">self</span> getDocumentsDirectory];</span><br><span class="line"><span class="built_in">NSString</span> *fullPath = [documentsPath stringByAppendingPathComponent:<span class="string">@"save.plist"</span>];</span><br><span class="line"><span class="built_in">NSMutableDictionary</span>* plistDict = [[<span class="built_in">NSMutableDictionary</span> alloc] initWithContentsOfFile:fullPath];</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="openUrl">openUrl</h1><ul>
-<li><p>利用Safari打开一个链接</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.cnblogs.com/tracy-e/"</span>];</span><br><span class="line">[[<span class="built_in">UIApplication</span> sharedApplication] openURL:url];</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="UIImage">UIImage</h1><ul>
-<li><p>从文件获取图片</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *thumbnailFile = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@/%@.png"</span>, [[<span class="built_in">NSBundle</span> mainBundle] resourcePath], fileName];</span><br><span class="line"><span class="built_in">UIImage</span> *thumbnail = [<span class="built_in">UIImage</span> imageWithContentsOfFile:thumbnailFile];</span><br><span class="line"><span class="built_in">UIImage</span> *image = [[<span class="built_in">UIImage</span> alloc] initWithContentsOfFile:filePath];</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>生成纯色图</p>
- <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGSize</span> imageSize = <span class="built_in">CGSizeMake</span>(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line"><span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(imageSize, <span class="number">0</span>, [<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.scale</span>);</span><br><span class="line">[[<span class="built_in">UIColor</span> colorWithRed:<span class="number">0</span> green:<span class="number">0</span> blue:<span class="number">0</span> alpha:<span class="number">1.0</span>] set];</span><br><span class="line"><span class="built_in">UIRectFill</span>(<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, imageSize<span class="variable">.width</span>, imageSize<span class="variable">.height</span>));</span><br><span class="line"><span class="built_in">UIImage</span> *pressedColorImg = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</span><br><span class="line"><span class="built_in">UIGraphicsEndImageContext</span>();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>图片合成</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIImage</span> *)addImage:(<span class="built_in">UIImage</span> *)image1 toImage:(<span class="built_in">UIImage</span> *)image2 &#123;</span><br><span class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(image1<span class="variable">.size</span>);</span><br><span class="line">    [image1 drawInRect:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, image1<span class="variable">.size</span><span class="variable">.width</span>, image1<span class="variable">.size</span><span class="variable">.height</span>)];</span><br><span class="line">    [image2 drawInRect:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, image2<span class="variable">.size</span><span class="variable">.width</span>, image2<span class="variable">.size</span><span class="variable">.height</span>)];</span><br><span class="line">    <span class="built_in">UIImage</span> *resultingImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</span><br><span class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</span><br><span class="line">    <span class="keyword">return</span> resultingImage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>截取部分UIImage</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">UIImage</span> *)clipImageFromImage:(<span class="built_in">UIImage</span> *)orgImage  Rect:(<span class="built_in">CGRect</span>)clipRect&#123;</span><br><span class="line">    <span class="built_in">CGImageRef</span> imageRef = orgImage<span class="variable">.CGImage</span>;</span><br><span class="line">    <span class="built_in">CGImageRef</span> subImageRef = <span class="built_in">CGImageCreateWithImageInRect</span>(imageRef, clipRect);</span><br><span class="line">    <span class="built_in">CGSize</span> size;</span><br><span class="line">    size = clipRect<span class="variable">.size</span>;</span><br><span class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(size);</span><br><span class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</span><br><span class="line">    <span class="built_in">CGContextDrawImage</span>(context, clipRect, subImageRef);</span><br><span class="line">    <span class="built_in">UIImage</span>* clipImage = [<span class="built_in">UIImage</span> imageWith<span class="built_in">CGImage</span>:subImageRef];</span><br><span class="line">    <span class="built_in">CGImageRelease</span>(subImageRef);</span><br><span class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</span><br><span class="line">    <span class="keyword">return</span> clipImage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="CGRect">CGRect</h1><ul>
-<li><p>把CGRect结构转变为格式化字符串</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSStringFromCGRect</span>(someCG);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>由字符串恢复出矩形</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGRectFromString</span>(aString)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>隐藏状态栏</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">UIApplication</span> shareApplication] setStatusBarHidden: <span class="literal">YES</span> animated:<span class="literal">NO</span>];</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>圆角按钮</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIButton</span> *scaleUpButton = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeRoundedRect</span>];</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="AVAudioPlayer">AVAudioPlayer</h1><ul>
-<li><p>播放音效</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *musicFilePath = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:fileName ofType:<span class="string">@"wav"</span>];       <span class="comment">// 创建音乐文件路径</span></span><br><span class="line"><span class="built_in">NSURL</span> *musicURL = [[<span class="built_in">NSURL</span> alloc] initFileURLWithPath:musicFilePath];</span><br><span class="line"><span class="built_in">AVAudioPlayer</span>* musicPlayer = [[<span class="built_in">AVAudioPlayer</span> alloc] initWithContentsOfURL:musicURL error:<span class="literal">nil</span>];</span><br><span class="line">[musicPlayer prepareToPlay];</span><br><span class="line">[musicPlayer setVolume:<span class="number">1</span>];          <span class="comment">// 设置音量大小</span></span><br><span class="line">musicPlayer <span class="variable">.numberOfLoops</span> = -<span class="number">1</span>;    <span class="comment">// 设置音乐播放次数  -1为一直循环</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="UIWebview">UIWebview</h1><ul>
-<li><p>UIWebview打开doc,pdf文件</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIWebView</span> *webView = [[<span class="built_in">UIWebView</span> alloc]initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">55</span>, <span class="number">320</span>, <span class="number">300</span>)];</span><br><span class="line">webView<span class="variable">.delegate</span> = <span class="keyword">self</span>;</span><br><span class="line">webView<span class="variable">.multipleTouchEnabled</span> = <span class="literal">YES</span>;</span><br><span class="line">webView<span class="variable">.scalesPageToFit</span> = <span class="literal">YES</span>;</span><br><span class="line"><span class="built_in">NSArray</span> *paths = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>);</span><br><span class="line"><span class="built_in">NSString</span> *documentsDirectory = [paths objectAtIndex:<span class="number">0</span>];</span><br><span class="line"><span class="built_in">NSString</span> *docPath = [documentsDirectory stringByAppendingString:<span class="string">@"/doc2003_1.doc"</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"#######%@"</span>,docPath);</span><br><span class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> fileURLWithPath:docPath];</span><br><span class="line"><span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</span><br><span class="line">[webView loadRequest:request];</span><br><span class="line">[<span class="keyword">self</span><span class="variable">.view</span> addSubview:webView];</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="auto_layout">auto layout</h1><ul>
-<li><p>代码定义constraints时，需要设置translatesAutoresizingMaskIntoConstraints为YES。</p>
-  <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-setTranslatesAutoresizingMaskIntoConstraints:</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+              <p>最近公司多了一个 XBOX 游戏机，老板带过来的。经常在公司的 XBOX 上玩 FIFA 2015。打得多了就有了一点心得，然后在网上搜了一些技巧。</p>
+<h1 id="直塞">直塞</h1><p>直塞是最简单有效的进攻方法了。通过直塞能直接撕开对手防线，创造进攻机会，也是我最常用的进球方式。</p>
+<p>直塞的方法是按 Y 键，地面直塞；LB+Y 空中直塞。</p>
+<p>直塞的要点是力度、方向，还有最重要的时机。直塞时要注意前方球员不能处在越位位置。要看到本方球员启动向前冲了再传，不然传球了之后没有人接。地面直塞相对来说效果更好，但是如果传球线路有对方球员或传球方向太直时，选择空中直塞会比较好。</p>
+<h1 id="任意球">任意球</h1><h2 id="落叶球">落叶球</h2><p>朝着人墙发，一直按住上，然后按 B，力度大约45%~50%，看距离，远的话大一些。适用于近距离任意球，18~25码，大概就是禁区往外一点点，很有效的进球方式。</p>
+<h2 id="弧线球">弧线球</h2><p>球弧线从人墙边过。视角挪到球门一角，一直按住RB和右上（或者左上，朝着球门方向），然后按 B，力度大约60%。适用于25~40码。</p>
+<h1 id="过人">过人</h1><h2 id="彩虹过人">彩虹过人</h2><p>按住 LT，按几下 RB，然后按右摇杆“下上上”</p>
+<h2 id="回旋">回旋</h2><p>前进时按右摇杆右下或左下两次</p>
+<h2 id="护球键">护球键</h2><p>LT，按住盘带或者需要时点几下。</p>
+<h2 id="拔球">拔球</h2><p>右摇杆朝着要拔的方向按。</p>
 
             
           </span>
@@ -1156,6 +1408,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
         </div>
@@ -1190,25 +1446,25 @@
           <img class="site-author-image" src="/images/default_avatar.jpg" alt="Jayi" itemprop="image"/>
           <p class="site-author-name" itemprop="name">Jayi</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">Jayi's blog | iOS | python</p>
+        <p class="site-description motion-element" itemprop="description">Jayi's blog | iOS | java</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1243,8 +1499,8 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
-  <span itemprop="copyrightYear">2015</span>
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>

@@ -1,0 +1,719 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Algorithm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="skiplist 又称跳跃表，是一个数据节构，可以实现红黑树类似的功能，插入或删除元素后保持有序。插入和删除的复杂度都是O(log n)。
+skiplist 除了具有红黑树的功能外，还能支持从下标取元素的操作（类似skipList[10]这样的访问）。
+skiplist 基于概率均衡，不保证平衡性（但通常效果都不错）。它相对于传统的平衡树优势在于原理更简单，代码实现上更简洁高效。
+原理跳跃表可以看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="skiplist 原理和实现">
+<meta property="og:url" content="http://jayi.github.io/2015/11/13/skiplist 原理和实现/index.html">
+<meta property="og:site_name" content="Jayi">
+<meta property="og:description" content="skiplist 又称跳跃表，是一个数据节构，可以实现红黑树类似的功能，插入或删除元素后保持有序。插入和删除的复杂度都是O(log n)。
+skiplist 除了具有红黑树的功能外，还能支持从下标取元素的操作（类似skipList[10]这样的访问）。
+skiplist 基于概率均衡，不保证平衡性（但通常效果都不错）。它相对于传统的平衡树优势在于原理更简单，代码实现上更简洁高效。
+原理跳跃表可以看">
+<meta property="og:image" content="http://redisbook.readthedocs.org/en/latest/_images/skiplist.png">
+<meta property="og:updated_time" content="2016-01-14T03:23:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="skiplist 原理和实现">
+<meta name="twitter:description" content="skiplist 又称跳跃表，是一个数据节构，可以实现红黑树类似的功能，插入或删除元素后保持有序。插入和删除的复杂度都是O(log n)。
+skiplist 除了具有红黑树的功能外，还能支持从下标取元素的操作（类似skipList[10]这样的访问）。
+skiplist 基于概率均衡，不保证平衡性（但通常效果都不错）。它相对于传统的平衡树优势在于原理更简单，代码实现上更简洁高效。
+原理跳跃表可以看">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> skiplist 原理和实现 | Jayi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Jayi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                skiplist 原理和实现
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-13T10:35:54+08:00" content="2015-11-13">
+              2015-11-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/13/skiplist 原理和实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/13/skiplist 原理和实现/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>skiplist 又称跳跃表，是一个数据节构，可以实现红黑树类似的功能，插入或删除元素后保持有序。插入和删除的复杂度都是<em>O(log n)</em>。</p>
+<p>skiplist 除了具有红黑树的功能外，还能支持从下标取元素的操作（类似skipList[10]这样的访问）。</p>
+<p>skiplist 基于概率均衡，不保证平衡性（但通常效果都不错）。它相对于传统的平衡树优势在于原理更简单，代码实现上更简洁高效。</p>
+<h1 id="原理">原理</h1><p>跳跃表可以看作是传统单链表的扩展。有序的单链表插入和删除的复杂度都是<em>O(n)</em>的。</p>
+<p>跳跃表对有序单链表的每个节点进行了扩展。在每个节点原来有一个指向下一节点的指针的基础上，新增一系列指针，让第二个指针指向当前节点往后数第2个节点，第三个指针指向当前节点住后数第4个节点…以此类推，第n个指针指向当前点后的第$2^{n-1}$个节点。如下图如示。实际实现时，是基于随机算法，步长不是完全精确的为$2^{n-1}$。</p>
+<p><img src="http://redisbook.readthedocs.org/en/latest/_images/skiplist.png" alt="跳跃表"></p>
+<p>这样一来，插入、删除或者查找节点时，从上往下，先用上层的指针确定范围，再往下一层，减小步长，继续查找，缩小范围，直到确定位置。</p>
+<p>通过对单链表扩展，新增一系列步长指数增长的指针，跳跃表插入、删除、查找的复杂度优化到了<em>O(log n)</em>。</p>
+<h1 id="实现">实现</h1><p>接下来看看跳跃表的 java 实现。</p>
+<h2 id="数据结构">数据结构</h2><p>首先需要一个数据结构存储每个节点。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">        T element;              <span class="comment">// 该节点的标识，通常为 string</span></span><br><span class="line">        Integer score;          <span class="comment">// 该节点的值，作为排序依据</span></span><br><span class="line">        Node&lt;T&gt;[] backward;     <span class="comment">// 前驱</span></span><br><span class="line">        Node&lt;T&gt;[] level;        <span class="comment">// 后继</span></span><br><span class="line">        <span class="comment">// 跳跃跨度，表示当前节点与level[i]中间有多少个结点</span></span><br><span class="line">        <span class="keyword">int</span>[] span = <span class="keyword">new</span> <span class="keyword">int</span>[MAX_LEVEL];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后是整个跳跃表类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkipList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> MAX_LEVEL = <span class="number">32</span>;    <span class="comment">// 最大层数，32表示能存2^32个元素</span></span><br><span class="line">    <span class="keyword">private</span> Node&lt;E&gt; head;               <span class="comment">// 链表头指针，头指针和尾指针不存数据</span></span><br><span class="line">    <span class="keyword">private</span> Node&lt;E&gt; tail;               <span class="comment">// 链表尾指针</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> level;                   <span class="comment">// 当前跳跃表层数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> size;                    <span class="comment">// 链表元素个数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="查询">查询</h2><h3 id="查询对应位置的元素">查询对应位置的元素</h3><p>在维护好跳跃表的前提下，查询跳跃表中给定位置的元素是很容易的。</p>
+<ol>
+<li>从 head 结点开始，level = MAX_LEVEL - 1 开始遍历</li>
+<li>如果跳到 next[level] 后超出查询的下标，level 减1，节点的下标由遍历时前驱的 span 之和计算得来;</li>
+<li>否则跳到 next[level] 节点;</li>
+<li>重复2，3步，直到level=-1.</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public Node&lt;E&gt; findEntry(int index) &#123;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    for (int i = MAX_LEVEL - 1; i &gt;= 0; --i) &#123;</span><br><span class="line">        while (entry.level[i] != null &amp;&amp; entry.span[i] &lt;= index) &#123; index -= entry.span[i]; entry = entry.level[i]; &#125; &#125; return entry; &#125; ``` ### 查询某个区间顺序所有元素 先利用上一步结果，查到 startIdx 对应的结点，然后从该点开始遍历即可。 ``` public Set&lt;Pair&lt;E, Integer&gt;&gt; range(int startIdx, int endIdx) &#123;</span><br><span class="line">        TreeSet&lt;Pair&lt;E, Integer&gt;&gt; result = new TreeSet&lt;Pair&lt;E, Integer&gt;&gt;(pairComparator);</span><br><span class="line">        Node&lt;E&gt;node = this.findEntry(startIdx);</span><br><span class="line">        for (int idx = startIdx; idx &lt; endIdx + 1 &amp;&amp; node != null &amp;&amp; node != tail; ++idx, node = node.level[0]) &#123;</span><br><span class="line">            result.add(new Pair&lt;E, Integer&gt;(node.element, node.score));</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="查询某个元素的下标">查询某个元素的下标</h3><p>和第一步查询下标对应的元素类似，上面是把 index 减到0，这边让 index 从0开始加，直到跳到链表中与要查询元素值一样的时候结束。最后得到的 index 便是需要的结果。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private int getIndex(Node&lt;E&gt;node) &#123;</span><br><span class="line">    int index = 0;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    for (int i = Math.min(level, MAX_LEVEL - 1); i &gt;= 0; --i) &#123;</span><br><span class="line">        while (entry.level[i] != null &amp;&amp; entry.level[i].compareTo(node) &lt;= 0) &#123; index += entry.span[i]; entry = entry.level[i]; &#125; assert entry.compareTo(node) &lt;= 0; &#125; return index; &#125; ``` ## 插入元素 插入元素时，先利用前面的方法查找到需要插入的位置前插入，更新level 0的前驱后继关系。 ```java public boolean add(E element, int score) &#123; Node&lt;E&gt;node = new Node&lt;E&gt;(element, score);</span><br><span class="line">    Node&lt;E&gt;entry = findEntry(element, score);</span><br><span class="line">    if (entry.compareTo(node) == 0 || (entry.level[0] != null &amp;&amp; entry.level[0].compareTo(node) == 0)) &#123;</span><br><span class="line">            return true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    node.span[0] = 1;</span><br><span class="line">    size += 1;</span><br><span class="line">    Node&lt;E&gt;next = entry.level[0];</span><br><span class="line">    if (next != null) &#123;</span><br><span class="line">        next.backward[0] = node;</span><br><span class="line">    &#125;</span><br><span class="line">    node.backward[0] = entry;</span><br><span class="line">    node.level[0] = next;</span><br><span class="line">    entry.level[0] = node;</span><br><span class="line"></span><br><span class="line">    updateSpanAdd(node);</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="插入元素后更新_span">插入元素后更新 span</h3><p>如果只是插入更新 level 0 指针，这样就退化成简单的双向链表了。我们还需要结新加入的结点随机赋予高度，并更新 span 值。<br>更新 span 的主要思想是，新加入节点在 level i 的 span 值为在 level i 的前驱(backward[i])的 span 值减去新节点同前驱的 index 之差。与此同时，更新前驱的 span 值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateSpanAdd</span><span class="params">(Node&lt;E&gt; node)</span> </span>&#123;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    <span class="keyword">int</span> randomLevel = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 新节点赋予随机高度以维持平衡，保证平均复杂度为 O(log n)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; level; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Math.random() &gt; <span class="number">0.5</span>) &#123;</span><br><span class="line">            randomLevel++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 高度与目前最大高度相同，最大高度+1</span></span><br><span class="line">    <span class="keyword">if</span> (randomLevel == level &amp;&amp; level &lt; MAX_LEVEL - <span class="number">1</span>) &#123;</span><br><span class="line">        ++level;</span><br><span class="line">        head.span[level] = size;</span><br><span class="line">        head.level[level] = tail;</span><br><span class="line">        tail.backward[level] = head;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> nodeIndex = <span class="keyword">this</span>.getIndex(node);</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">    entry = head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = Math.min(level, MAX_LEVEL - <span class="number">1</span>); i &gt;= <span class="number">1</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (entry.level[i] != <span class="keyword">null</span> &amp;&amp; entry.level[i].compareTo(node) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            index += entry.span[i];</span><br><span class="line">            entry = entry.level[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">assert</span> entry.compareTo(node) &lt; <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (entry.span[i] != <span class="number">0</span> &amp;&amp; i &gt; <span class="number">0</span>) entry.span[i] += <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (i &lt;= randomLevel) &#123; node.span[i] = entry.span[i] - (nodeIndex - index); node.level[i] = entry.level[i]; entry.level[i] = node; entry.span[i] = nodeIndex - index; node.backward[i] = entry; Node&lt;E&gt;next = node.level[i];</span><br><span class="line">            <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                next.backward[i] = node;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="删除元素">删除元素</h2><h3 id="删除前更新_span">删除前更新 span</h3><p>与插入操作不同，删除元素时需要先更新 span，对要删除结点所有 level 上的前驱，对应的 span 减1。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateSpanRemove</span><span class="params">(Node&lt;E&gt; node)</span> </span>&#123;</span><br><span class="line">    Node&lt;E&gt;entry = head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = Math.min(level, MAX_LEVEL - <span class="number">1</span>); i &gt;= <span class="number">1</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">while</span> (entry.level[i] != <span class="keyword">null</span> &amp;&amp; entry.level[i].compareTo(node) &lt;= <span class="number">0</span>) &#123; entry = entry.level[i]; &#125; <span class="keyword">if</span> (entry.span[i] != <span class="number">0</span> &amp;&amp; i&gt; <span class="number">0</span>) entry.span[i] -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="从跳跃表中删除元素">从跳跃表中删除元素</h3><p>查找到要删除元素的位置，从链接中删除。更新每个 level 上的前驱后继关系和前驱的 span 值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(E element, <span class="keyword">int</span> score)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">FIXME:</span> 必要时降低 level</span></span><br><span class="line">    Node&lt;E&gt;node = <span class="keyword">new</span> Node&lt;E&gt;(element, score);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.updateSpanRemove(node);</span><br><span class="line">    Node&lt;E&gt;entry = findEntry(element, score);</span><br><span class="line">    <span class="keyword">if</span> (entry.compareTo(node) &lt; <span class="number">0</span> &amp;&amp; entry.level[<span class="number">0</span>] != <span class="keyword">null</span>) entry = entry.level[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (entry.compareTo(node) != <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = level; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        Node&lt;E&gt;prev = entry.backward[i];</span><br><span class="line">        Node&lt;E&gt;next = entry.level[i];</span><br><span class="line">        <span class="keyword">if</span> (prev != <span class="keyword">null</span>) &#123;</span><br><span class="line">            prev.level[i] = next;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">0</span>) prev.span[i] += entry.span[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">            next.backward[i] = prev;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    --size;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag">#Algorithm</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/13/Xcode升级后插件失效修复办法/" rel="next" title="Xcode升级后插件失效修复办法">
+                <i class="fa fa-chevron-left"></i> Xcode升级后插件失效修复办法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/30/3D Touch 开发 入门/" rel="prev" title="3D Touch 开发 入门">
+                3D Touch 开发 入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/11/13/skiplist 原理和实现/"
+           data-title="skiplist 原理和实现" data-url="http://jayi.github.io/2015/11/13/skiplist 原理和实现/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Jayi" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Jayi</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Jayi's blog | iOS | java</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原理"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-number">2.1.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">2.2.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询对应位置的元素"><span class="nav-number">2.2.1.</span> <span class="nav-text">查询对应位置的元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询某个元素的下标"><span class="nav-number">2.2.2.</span> <span class="nav-text">查询某个元素的下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入元素后更新_span"><span class="nav-number">2.2.3.</span> <span class="nav-text">插入元素后更新 span</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除元素"><span class="nav-number">2.3.</span> <span class="nav-text">删除元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#删除前更新_span"><span class="nav-number">2.3.1.</span> <span class="nav-text">删除前更新 span</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从跳跃表中删除元素"><span class="nav-number">2.3.2.</span> <span class="nav-text">从跳跃表中删除元素</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jayiist"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
