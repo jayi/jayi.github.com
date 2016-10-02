@@ -293,7 +293,7 @@ cat ~/id_rsa<span class="class">.pub</span> &gt;&gt; authorized_keys
 </code></pre><hr>
 <p>也可以将上面两步合并为一步，在客户端执行</p>
 <pre><code>cat ~<span class="regexp">/.ssh/id</span>_rsa.pub | ssh root<span class="variable">@remote</span> <span class="string">'cat &gt;&gt; .ssh/authorized_keys'</span>
-</code></pre><p>将公钥放到服务器后，下一次直接输入<code>ssh root@remote</code>就能直接登录了。</p>
+</code></pre><p>将公钥放到服务器后，下一次输入<code>ssh root@remote</code>就能直接登录了。</p>
 
             
           </span>
