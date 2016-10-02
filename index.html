@@ -199,15 +199,6 @@
 
     
     
-      
-      
-        
-        
-        
-      
-
-      
-    
 
     
       
@@ -291,7 +282,8 @@
         
           <span itemprop="articleBody">
             
-              <p>首先生成密钥, 如果已有密钥文件(~/.ssh/id_rsa)则不用执行</p>
+              <p>使用ssh登录服务器时，每次都输入帐号密码时很麻烦的。可以通过使用密钥的方式登录，不用输帐号密码也可以登录。</p>
+<p>首先生成密钥, 如果已有密钥文件(~/.ssh/id_rsa)则不用执行</p>
 <pre><code>ssh-keygen -t rsa
 </code></pre><p>在客户端执行</p>
 <pre><code>scp <span class="regexp">~/.ssh/</span>id_rsa.pub <span class="string">remote:</span>
@@ -301,7 +293,8 @@ cat ~/id_rsa<span class="class">.pub</span> &gt;&gt; authorized_keys
 </code></pre><hr>
 <p>也可以将上面两步合并为一步，在客户端执行</p>
 <pre><code>cat ~<span class="regexp">/.ssh/id</span>_rsa.pub | ssh root<span class="variable">@remote</span> <span class="string">'cat &gt;&gt; .ssh/authorized_keys'</span>
-</code></pre>
+</code></pre><p>将公钥放到服务器后，下一次直接输入<code>ssh root@remote</code>就能直接登录了。</p>
+
             
           </span>
         
