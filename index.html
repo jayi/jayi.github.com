@@ -199,15 +199,168 @@
 
     
     
+
+    
       
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/08/使用 sockopt 实现内核与用户层通信/" itemprop="url">
+                  使用 sockopt 实现内核与用户层通信
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-10-08T17:07:25+08:00" content="2016-10-08">
+              2016-10-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/08/使用 sockopt 实现内核与用户层通信/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/08/使用 sockopt 实现内核与用户层通信/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
-        
-        
-        
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>基于socket的sockopt是Linux中一种简单易用的内核态与用户态的通信方式。</p>
+<h1 id="应用层-系统调用">应用层-系统调用</h1><p>Linux中有两个系统调用，setsockopt和getsockopt，用于​设置、获取socket选项。它们的函数原型为：</p>
+<pre><code><span class="function"><span class="keyword">int</span> <span class="title">getsockopt</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">int</span> level, <span class="keyword">int</span> optname, <span class="keyword">void</span> *optval, socklen_t *optlen)</span></span>;
+<span class="function"><span class="keyword">int</span> <span class="title">setsockopt</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">int</span> level, <span class="keyword">int</span> optname, <span class="keyword">const</span> <span class="keyword">void</span> *optval, socklen_t optlen)</span></span>;
+</code></pre><p>其中s即socket_fd，套接字的文件描述符。</p>
+<p>level指定在哪一层控制socket选项，常用的有以下三种：</p>
+<ol>
+<li>SOL_SOCKET(= 1)，通用套接字选项；</li>
+<li>IPPROTO_IP(= 0)，IP选项；</li>
+<li>IPPROTO_TCG(= 6)，TCP选项；</li>
+</ol>
+<p>optname为选项代号。</p>
+<p>对于getsockopt，optval,optlen为返回的选项值的指针及长度。比如，一个字符串或结构体指针和它的长度。对于setsockopt，类似，optval,optlen为要设置的数据指针和数据长度。</p>
+<p>如果函数执行成功，返回值为0，否则返回-1。错误代号保存在errno中。</p>
+<p>举个例子：</p>
+<pre><code>int tmp = <span class="number">1</span><span class="comment">;</span>
+setsockopt<span class="list">(<span class="keyword">listen_fd</span>, SOL_SOCKET, SO_REUSEADDR, <span class="keyword">&amp;tmp</span>, sizeof<span class="list">(<span class="keyword">tmp</span>)</span>)</span><span class="comment">;</span>
+</code></pre><p>以上代码设置套接字地址和端口可重用。</p>
+<h1 id="内核层-netfilter">内核层-netfilter</h1><p>Linux的netfilter提供了一组接口用于自定义socket选项。</p>
+<p>数据结构：</p>
+<pre><code><span class="keyword">struct</span> nf_sockopt_ops
+{
+        <span class="keyword">struct</span> list_head <span class="built_in">list</span>;
+
+        <span class="keyword">int</span> pf; 
+
+        <span class="comment">/* Non-inclusive ranges: use 0/0/NULL to never get called. */</span>
+        <span class="comment">/* setsockopt选项编号取值范围 */</span>
+        <span class="keyword">int</span> set_optmin;
+        <span class="keyword">int</span> set_optmax;
+        <span class="comment">/* 自定义setsockopt函数, sk为套接字内核内部数据结构 */</span>
+        <span class="keyword">int</span> (*<span class="built_in">set</span>)(<span class="keyword">struct</span> sock *sk, <span class="keyword">int</span> optval, <span class="keyword">void</span> __user *user, <span class="keyword">unsigned</span> <span class="keyword">int</span> len);
+        <span class="keyword">int</span> (*compat_set)(<span class="keyword">struct</span> sock *sk, <span class="keyword">int</span> optval,
+                        <span class="keyword">void</span> __user *user, <span class="keyword">unsigned</span> <span class="keyword">int</span> len);
+
+        <span class="comment">/* getsockopt选项编号取值范围 */</span>
+        <span class="keyword">int</span> get_optmin;
+        <span class="keyword">int</span> get_optmax;
+        <span class="comment">/* 自定义setsockopt函数 */</span>
+        <span class="keyword">int</span> (*get)(<span class="keyword">struct</span> sock *sk, <span class="keyword">int</span> optval, <span class="keyword">void</span> __user *user, <span class="keyword">int</span> *len);
+        <span class="keyword">int</span> (*compat_get)(<span class="keyword">struct</span> sock *sk, <span class="keyword">int</span> optval,
+                        <span class="keyword">void</span> __user *user, <span class="keyword">int</span> *len);
+
+        <span class="comment">/* Number of users inside set() or get(). */</span>
+        <span class="keyword">unsigned</span> <span class="keyword">int</span> use;
+        <span class="keyword">struct</span> task_struct *cleanup_task;
+};
+</code></pre><p>我们只要新建一个nf_sockopt_ops结构，设置好选项取值范围，自定义set和get函数，然后注册到内核中。这样就可以在用户层调用setsockopt或getsockopt，和内核通信了。<br>注册卸载nf_sockopt_ops的接口为：</p>
+<pre><code><span class="function"><span class="keyword">int</span> <span class="title">nf_register_sockopt</span><span class="params">(<span class="keyword">struct</span> nf_sockopt_ops *reg)</span></span>;
+<span class="function"><span class="keyword">void</span> <span class="title">nf_unregister_sockopt</span><span class="params">(<span class="keyword">struct</span> nf_sockopt_ops *reg)</span></span>;
+</code></pre><h1 id="示例">示例</h1><h2 id="示例一：互相发送字符串">示例一：互相发送字符串</h2><h3 id="内核模块代码">内核模块代码</h3><p>sockopt_kern.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;linux/kernel.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;linux/types.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;linux/string.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;linux/netfilter_ipv4.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;linux/init.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;asm/uaccess.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_BASE          <span class="number">128</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_SET       (SOCKET_OPS_BASE)</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_GET      (SOCKET_OPS_BASE)</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_MAX       (SOCKET_OPS_BASE + <span class="number">1</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> KMSG          <span class="string">"a message from kernel"</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> KMSG_LEN      sizeof(<span class="string">"a message from kernel"</span>)</span></span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">recv_msg</span><span class="params">(<span class="keyword">struct</span> sock *sk, <span class="keyword">int</span> cmd, <span class="keyword">void</span> *user, <span class="keyword">unsigned</span> <span class="keyword">int</span> len)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">    printk(KERN_INFO <span class="string">"sockopt: recv_msg()\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cmd == SOCKET_OPS_SET)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">char</span> umsg[<span class="number">64</span>];</span><br><span class="line">        <span class="keyword">int</span> len = <span class="keyword">sizeof</span>(<span class="keyword">char</span>)*<span class="number">64</span>;</span><br><span class="line">        <span class="built_in">memset</span>(umsg, <span class="number">0</span>, len);</span><br><span class="line">        ret = copy_from_user(umsg, user, len);</span><br><span class="line">        printk(<span class="string">"recv_msg: umsg = %s. ret = %d\n"</span>, umsg, ret);       </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">send_msg</span><span class="params">(<span class="keyword">struct</span> sock *sk, <span class="keyword">int</span> cmd, <span class="keyword">void</span> *user, <span class="keyword">int</span> *len)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">    printk(KERN_INFO <span class="string">"sockopt: send_msg()\n"</span>);</span><br><span class="line">    <span class="keyword">if</span> (cmd == SOCKET_OPS_GET)</span><br><span class="line">    &#123;</span><br><span class="line">        ret = copy_to_user(user, KMSG, KMSG_LEN);</span><br><span class="line">        printk(<span class="string">"send_msg: umsg = %s. ret = %d. success\n"</span>, KMSG, ret);   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">struct</span> nf_sockopt_ops test_sockops =</span><br><span class="line">&#123;</span><br><span class="line">    .pf = PF_INET,</span><br><span class="line">    .set_optmin = SOCKET_OPS_SET,</span><br><span class="line">    .set_optmax = SOCKET_OPS_MAX,</span><br><span class="line">    .<span class="built_in">set</span> = recv_msg,</span><br><span class="line">    .get_optmin = SOCKET_OPS_GET,</span><br><span class="line">    .get_optmax = SOCKET_OPS_MAX,</span><br><span class="line">    .get = send_msg,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">init_sockopt</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"sockopt: init_sockopt()\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> nf_register_sockopt(&amp;test_sockops);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">fini_sockopt</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"sockopt: fini_sockopt()\n"</span>);</span><br><span class="line">    nf_unregister_sockopt(&amp;test_sockops);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(init_sockopt);</span><br><span class="line">module_exit(fini_sockopt);</span><br></pre></td></tr></table></figure>
+<h3 id="应用层代码">应用层代码</h3><p>sockopt_usr.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;linux/in.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_BASE      <span class="number">128</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_SET       (SOCKET_OPS_BASE)</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_GET      (SOCKET_OPS_BASE)</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> SOCKET_OPS_MAX       (SOCKET_OPS_BASE + <span class="number">1</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> UMSG      <span class="string">"a message from userspace"</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> UMSG_LEN  sizeof(<span class="string">"a message from userspace"</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> kmsg[<span class="number">64</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sockfd;</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line"></span><br><span class="line">    sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);</span><br><span class="line">    <span class="keyword">if</span>(sockfd &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"can not create a socket\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*call function recv_msg()*/</span></span><br><span class="line">    ret = setsockopt(sockfd, IPPROTO_IP, SOCKET_OPS_SET, UMSG, UMSG_LEN);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"setsockopt: ret = %d. msg = %s\n"</span>, ret, UMSG);</span><br><span class="line">    len = <span class="keyword">sizeof</span>(<span class="keyword">char</span>)*<span class="number">64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*call function send_msg()*/</span></span><br><span class="line">    ret = getsockopt(sockfd, IPPROTO_IP, SOCKET_OPS_GET, kmsg, &amp;len);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"getsockopt: ret = %d. msg = %s\n"</span>, ret, kmsg);</span><br><span class="line">    <span class="keyword">if</span> (ret != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"getsockopt error: errno = %d, errstr = %s\n"</span>, errno, strerror(errno));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    close(sockfd);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="示例二：用户层获取tcp连接对端窗口">示例二：用户层获取tcp连接对端窗口</h2><h3 id="内核模块代码-1">内核模块代码</h3><p>rcvwnd.c</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#include <span class="title">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#include <span class="title">&lt;linux/kernel.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#include <span class="title">&lt;linux/net.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#include <span class="title">&lt;linux/tcp.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#include <span class="title">&lt;linux/fs.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#include <span class="title">&lt;linux/version.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#include <span class="title">&lt;net/sock.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#include <span class="title">&lt;linux/netfilter_ipv4.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define SOCKET_OPS_RCVWND       128</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> get_rcv_wnd(<span class="keyword">struct</span> sock *sk, <span class="keyword">int</span> cmd, <span class="keyword">void</span> __user *user, <span class="keyword">int</span> *len)</span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">if</span> (cmd == SOCKET_OPS_RCVWND) &#123;</span><br><span class="line">                <span class="keyword">struct</span> tcp_sock *tsk;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (sk == <span class="literal">NULL</span>)</span><br><span class="line">                        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> ((tsk = tcp_sk(sk)) == <span class="literal">NULL</span>)</span><br><span class="line">                        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">                copy_to_user(user, &amp;tsk-&gt;rcv_wnd, <span class="keyword">sizeof</span>(tsk-&gt;rcv_wnd));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">struct</span> nf_sockopt_ops rcvwnd_sockops = &#123;</span><br><span class="line">        <span class="variable">.pf</span>             = PF_INET,</span><br><span class="line">        <span class="variable">.set_optmin</span>     = <span class="number">0</span>,</span><br><span class="line">        <span class="variable">.set_optmax</span>     = <span class="number">0</span>,</span><br><span class="line">        <span class="variable">.set</span>            = <span class="literal">NULL</span>,</span><br><span class="line">        <span class="variable">.get_optmin</span>     = SOCKET_OPS_RCVWND,</span><br><span class="line">        <span class="variable">.get_optmax</span>     = SOCKET_OPS_RCVWND + <span class="number">1</span>,</span><br><span class="line">        <span class="variable">.get</span>            = get_rcv_wnd,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> minit(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">return</span> nf_register_sockopt(&amp;rcvwnd_sockops);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> mexit(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">        nf_unregister_sockopt(&amp;rcvwnd_sockops);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(minit);</span><br><span class="line">module_exit(mexit);</span><br><span class="line">MODULE_LICE<span class="built_in">NSE</span>(<span class="string">"GPL"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="应用层用法">应用层用法</h3><p>建立连接后，对tcp连接的文件描述符sock_fd调用getsockopt。</p>
+<pre><code>u32 rcvwnd = <span class="number">0</span><span class="comment">;</span>
+int len = <span class="number">0</span><span class="comment">;</span>
+getsockopt<span class="list">(<span class="keyword">sock_fd</span>, IPPROTO, SOCKET_OPS_RCVWND, <span class="keyword">&amp;rcvwnd</span>, <span class="keyword">&amp;len</span>)</span><span class="comment">; </span>
+</code></pre>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -1294,118 +1447,6 @@ gitlab-rake gitlab:backup:restore BACKUP=<span class="number">1393513186</span>
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/17/FIFA 2015 入门技巧/" itemprop="url">
-                  FIFA 2015 入门技巧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-17T00:26:38+08:00" content="2016-01-17">
-              2016-01-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">life</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/17/FIFA 2015 入门技巧/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/17/FIFA 2015 入门技巧/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>最近公司多了一个 XBOX 游戏机，老板带过来的。经常在公司的 XBOX 上玩 FIFA 2015。打得多了就有了一点心得，然后在网上搜了一些技巧。</p>
-<h1 id="直塞">直塞</h1><p>直塞是最简单有效的进攻方法了。通过直塞能直接撕开对手防线，创造进攻机会，也是我最常用的进球方式。</p>
-<p>直塞的方法是按 Y 键，地面直塞；LB+Y 空中直塞。</p>
-<p>直塞的要点是力度、方向，还有最重要的时机。直塞时要注意前方球员不能处在越位位置。要看到本方球员启动向前冲了再传，不然传球了之后没有人接。地面直塞相对来说效果更好，但是如果传球线路有对方球员或传球方向太直时，选择空中直塞会比较好。</p>
-<h1 id="任意球">任意球</h1><h2 id="落叶球">落叶球</h2><p>朝着人墙发，一直按住上，然后按 B，力度大约45%~50%，看距离，远的话大一些。适用于近距离任意球，18~25码，大概就是禁区往外一点点，很有效的进球方式。</p>
-<h2 id="弧线球">弧线球</h2><p>球弧线从人墙边过。视角挪到球门一角，一直按住RB和右上（或者左上，朝着球门方向），然后按 B，力度大约60%。适用于25~40码。</p>
-<h1 id="过人">过人</h1><h2 id="彩虹过人">彩虹过人</h2><p>按住 LT，按几下 RB，然后按右摇杆“下上上”</p>
-<h2 id="回旋">回旋</h2><p>前进时按右摇杆右下或左下两次</p>
-<h2 id="护球键">护球键</h2><p>LT，按住盘带或者需要时点几下。</p>
-<h2 id="拔球">拔球</h2><p>右摇杆朝着要拔的方向按。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1452,7 +1493,7 @@ gitlab-rake gitlab:backup:restore BACKUP=<span class="number">1393513186</span>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
