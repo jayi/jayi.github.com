@@ -53,31 +53,20 @@
 
 
 
-<meta name="description" content="atomic 默认关键字，表示属性是线程同步的，多线程访问时保证正确性。在移动端一般不使用，性能差。
-nonatomic 非线程同步。
-readwrite 默认关键字，可读可写。
-readonly 表示属性只能读。有 getter 没有 setter。
-writeonly 只能写不能读。
-copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。默认会在 setter 中调用 copy 方法执">
+<meta name="description" content="iOS的事件有好几种：Touch Events(触摸事件)、Motion Events(运动事件，比如重力感应和摇一摇等)、Remote Events(远程事件，比如用耳机上得按键来控制手机)，其中最常用的就是Touch Events了，基本存在于每个app的每个地方，本文主要讲Touch Events。
+响应链在app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS property 属性关键字">
-<meta property="og:url" content="http://jayi.github.io/2016/09/01/iOS property 属性关键字/index.html">
+<meta property="og:title" content="iOS 触摸事件机制 响应链">
+<meta property="og:url" content="http://jayi.github.io/2016/10/13/iOS 触摸事件机制 响应链/index.html">
 <meta property="og:site_name" content="Jayi">
-<meta property="og:description" content="atomic 默认关键字，表示属性是线程同步的，多线程访问时保证正确性。在移动端一般不使用，性能差。
-nonatomic 非线程同步。
-readwrite 默认关键字，可读可写。
-readonly 表示属性只能读。有 getter 没有 setter。
-writeonly 只能写不能读。
-copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。默认会在 setter 中调用 copy 方法执">
-<meta property="og:updated_time" content="2016-10-02T06:11:28.000Z">
+<meta property="og:description" content="iOS的事件有好几种：Touch Events(触摸事件)、Motion Events(运动事件，比如重力感应和摇一摇等)、Remote Events(远程事件，比如用耳机上得按键来控制手机)，其中最常用的就是Touch Events了，基本存在于每个app的每个地方，本文主要讲Touch Events。
+响应链在app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自">
+<meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=57fef90fab64413b95005325">
+<meta property="og:updated_time" content="2016-10-13T03:11:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS property 属性关键字">
-<meta name="twitter:description" content="atomic 默认关键字，表示属性是线程同步的，多线程访问时保证正确性。在移动端一般不使用，性能差。
-nonatomic 非线程同步。
-readwrite 默认关键字，可读可写。
-readonly 表示属性只能读。有 getter 没有 setter。
-writeonly 只能写不能读。
-copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。默认会在 setter 中调用 copy 方法执">
+<meta name="twitter:title" content="iOS 触摸事件机制 响应链">
+<meta name="twitter:description" content="iOS的事件有好几种：Touch Events(触摸事件)、Motion Events(运动事件，比如重力感应和摇一摇等)、Remote Events(远程事件，比如用耳机上得按键来控制手机)，其中最常用的就是Touch Events了，基本存在于每个app的每个地方，本文主要讲Touch Events。
+响应链在app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自">
 
 
 
@@ -89,7 +78,7 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
   };
 </script>
 
-  <title> iOS property 属性关键字 | Jayi </title>
+  <title> iOS 触摸事件机制 响应链 | Jayi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +218,7 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
             
             
               
-                iOS property 属性关键字
+                iOS 触摸事件机制 响应链
               
             
           </h1>
@@ -238,8 +227,8 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-09-01T16:27:21+08:00" content="2016-09-01">
-              2016-09-01
+            <time itemprop="dateCreated" datetime="2016-10-13T10:30:50+08:00" content="2016-10-13">
+              2016-10-13
             </time>
           </span>
 
@@ -264,8 +253,8 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/01/iOS property 属性关键字/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/01/iOS property 属性关键字/" itemprop="commentsCount"></span>
+                <a href="/2016/10/13/iOS 触摸事件机制 响应链/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/13/iOS 触摸事件机制 响应链/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -284,19 +273,47 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
       
 
       
-        <span itemprop="articleBody"><ul>
-<li><em>atomic</em> 默认关键字，表示属性是线程同步的，多线程访问时保证正确性。在移动端一般不使用，性能差。</li>
-<li><em>nonatomic</em> 非线程同步。</li>
-<li><em>readwrite</em> 默认关键字，可读可写。</li>
-<li><em>readonly</em> 表示属性只能读。有 getter 没有 setter。</li>
-<li><em>writeonly</em> 只能写不能读。</li>
-<li><em>copy</em> 拷贝一个新的对象，新对象的引用计数+1，原对象不用。默认会在 setter 中调用 copy 方法执行。不能对可变类型使用。</li>
-<li><em>retain</em> 对象的引用计数+1，arc 下不使用，用 strong 代替。 </li>
-<li>strong 强引用，引用计数+1，释放时-1，引用计数为0时释放对象</li>
-<li><em>assign weak</em> 弱引用，不希望持有对象时使用，如代理，UI 控件。对象释放时，weak 会自动变为 nil，assign 不会。</li>
-<li><em>nonnull, nullable, null_resettable</em> 与 swift 中的?和!类似。nonnull 表示属性不可为 nil,必须有值。nullable 表示可以为 nil。null_resettable 表示 setter 是 nullable, getter 是 nonnull。</li>
-</ul>
-</span>
+        <span itemprop="articleBody"><p>iOS的事件有好几种：Touch Events(触摸事件)、Motion Events(运动事件，比如重力感应和摇一摇等)、Remote Events(远程事件，比如用耳机上得按键来控制手机)，其中最常用的就是Touch Events了，基本存在于每个app的每个地方，本文主要讲Touch Events。</p>
+<h1 id="响应链">响应链</h1><p>在app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自己的superView，包括controller的topmost view(controller的self.view)。当一个view被add到superView上的时候，他的nextResponder属性就会被指向它的superView，当controller被初始化的时候，self.view(topmost view)的nextResponder会被指向所在的controller，而controller的nextResponder会被指向self.view的superView，这样，整个app就通过nextResponder串成了一条链，也就是我们所说的响应链。</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=57fef90fab64413b95005325" alt=""></p>
+<p>当事件触发时，如果第一响应者没有响应，那么会根据响应链，将事件传递给nextResponder，如果还是没响应， 传给下一个nextResponder，直到UIApplication。</p>
+<h1 id="Hit-TestingView">Hit-TestingView</h1><p>寻找响应事件的具体响应者，称为：Hit-Testing View。通过以下两个方法实现。</p>
+<pre><code><span class="comment">// 返回当前view中，响应事件的后代view，没有响应返回nil</span>
+- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event; 
+<span class="comment">// 判断当前view是否响应事件，通常就是判断point是否在self.bounds内</span>
+- (<span class="built_in">BOOL</span>)pointInside:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event;
+</code></pre><p>每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:，看看当前点击的点是不是在window内，如果是则继续依次调用subView的hitTest:withEvent:方法，直到找到最后需要的view。调用结束并且hit-test view确定之后，这个view和view上面依附的手势，都会和一个UITouch的对象关联起来，这个UITouch会作为事件传递的参数之一，UITouch头文件里面有一个view和gestureRecognizers的属性，就是hitTest view和它的手势。</p>
+<p>hitTest:withEvent:工作流程示例代码</p>
+<pre><code>- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event {
+    <span class="comment">// 判断当前view能否响应事件</span>
+    <span class="keyword">if</span> (!<span class="keyword">self</span><span class="variable">.isUserInteractionEnabled</span> || <span class="keyword">self</span><span class="variable">.isHidden</span> || <span class="keyword">self</span><span class="variable">.alpha</span> &lt;= <span class="number">0.01</span>) {
+        <span class="keyword">return</span> <span class="literal">nil</span>;
+    }
+    <span class="comment">// 判断点击区域是否在当前view内</span>
+    <span class="keyword">if</span> ([<span class="keyword">self</span> pointInside:point withEvent:event]) {
+        <span class="comment">// 遍历子view，递归找出能响应的后代view</span>
+        <span class="keyword">for</span> (<span class="built_in">UIView</span> *subview <span class="keyword">in</span> [<span class="keyword">self</span><span class="variable">.subviews</span> reverseObjectEnumerator]) {
+            <span class="built_in">CGPoint</span> convertedPoint = [subview convertPoint:point fromView:<span class="keyword">self</span>];
+            <span class="built_in">UIView</span> *hitTestView = [subview hitTest:convertedPoint withEvent:event];
+            <span class="keyword">if</span> (hitTestView) {
+                <span class="keyword">return</span> hitTestView;
+            }
+        }
+        <span class="comment">// 没有子view响应，返回self</span>
+        <span class="keyword">return</span> <span class="keyword">self</span>;
+    }
+    <span class="keyword">return</span> <span class="literal">nil</span>;
+}
+</code></pre><h1 id="应用">应用</h1><h2 id="如何增大点击区域">如何增大点击区域</h2><p>重写 <code>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;</code></p>
+<pre><code>- (<span class="built_in">BOOL</span>)pointInside:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event
+{
+    <span class="built_in">CGRect</span> bounds = <span class="keyword">self</span><span class="variable">.bounds</span>;
+    <span class="built_in">CGFloat</span> widthDelta = MAX(<span class="number">0</span>, <span class="number">44.0</span> - bounds<span class="variable">.size</span><span class="variable">.width</span>);
+    <span class="built_in">CGFloat</span> heightDelta = MAX(<span class="number">0</span>, <span class="number">44.0</span> - bounds<span class="variable">.size</span><span class="variable">.height</span>);
+    bounds = <span class="built_in">CGRectInset</span>(bounds, -<span class="number">0.5</span> * widthDelta, -<span class="number">0.5</span> * heightDelta);    <span class="comment">//注意这里是负数，扩大了之前的bounds的范围</span>
+    <span class="keyword">return</span> <span class="built_in">CGRectContainsPoint</span>(bounds, point);
+}
+</code></pre></span>
       
     </div>
 
@@ -313,17 +330,13 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/06/Linux 无界面使用 selenium/" rel="next" title="Linux 无界面使用 selenium">
-                <i class="fa fa-chevron-left"></i> Linux 无界面使用 selenium
+              <a href="/2016/10/08/使用 sockopt 实现内核与用户层通信/" rel="next" title="使用 sockopt 实现内核与用户层通信">
+                <i class="fa fa-chevron-left"></i> 使用 sockopt 实现内核与用户层通信
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/08/ssh 免密码登录/" rel="prev" title="ssh 免密码登录">
-                ssh 免密码登录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -350,8 +363,8 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/01/iOS property 属性关键字/"
-           data-title="iOS property 属性关键字" data-url="http://jayi.github.io/2016/09/01/iOS property 属性关键字/">
+      <div class="ds-thread" data-thread-key="2016/10/13/iOS 触摸事件机制 响应链/"
+           data-title="iOS 触摸事件机制 响应链" data-url="http://jayi.github.io/2016/10/13/iOS 触摸事件机制 响应链/">
       </div>
     
   </div>
@@ -441,7 +454,7 @@ copy 拷贝一个新的对象，新对象的引用计数+1，原对象不用。�
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#响应链"><span class="nav-number">1.</span> <span class="nav-text">响应链</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hit-TestingView"><span class="nav-number">2.</span> <span class="nav-text">Hit-TestingView</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用"><span class="nav-number">3.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何增大点击区域"><span class="nav-number">3.1.</span> <span class="nav-text">如何增大点击区域</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
